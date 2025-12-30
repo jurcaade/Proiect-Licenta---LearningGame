@@ -4,45 +4,58 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
-    [Header("Prefab Camera")]
-    public GameObject roomPrefab;  // Prefab-ul camerei
+    [Header("Prefab Room (structura)")]
+    public GameObject roomPrefab;
 
-    private GameObject roomCurenta;
+    [Header("Prefabs nivele (doar obiecte)")]
+    public GameObject[] levelPrefabs; // RoomLevel1, RoomLevel2, ...
+
     private int nivelCurent = 0;
+    private GameObject roomCurenta;
 
     void Awake()
     {
         instance = this;
     }
 
-    // Spawn camera noua la pozitia si rotatia data
-    public void SpawnRoom(Vector3 pozitie, Quaternion rotatie)
+    // Spawn room + obiecte pentru nivelul curent
+    public void SpawnRoom(Transform spawnPoint)
     {
-        // Nu mai distruge camera veche
-        // if (roomCurenta != null)
-        //     Destroy(roomCurenta);
+        if (nivelCurent >= levelPrefabs.Length)
+        {
+            Debug.Log("Toate nivelele au fost spawnate!");
+            return;
+        }
 
-        // Creeaza camera noua
-        GameObject cameraNoua = Instantiate(roomPrefab, pozitie, rotatie);
+        roomCurenta = Instantiate(roomPrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // Sterge BackWall din camera noua
-        Transform[] toateObiectele = cameraNoua.GetComponentsInChildren<Transform>(true);
+        // Sterge BackWall daca exista
+        Transform[] toateObiectele = roomCurenta.GetComponentsInChildren<Transform>(true);
         foreach (Transform t in toateObiectele)
         {
             if (t.name == "BackWall")
-            {
                 Destroy(t.gameObject);
-                break;
-            }
+        }
+
+        GameObject nivelPrefab = levelPrefabs[nivelCurent];
+        if (nivelPrefab != null)
+        {
+            GameObject nivelObiecte = Instantiate(nivelPrefab, roomCurenta.transform);
+            nivelObiecte.transform.localPosition = Vector3.zero; // aliniere
+            nivelObiecte.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogWarning("Prefab pentru nivelul " + (nivelCurent + 1) + " lipseste!");
         }
 
         nivelCurent++;
-        Debug.Log("Camera " + nivelCurent + " spawnata.");
+        Debug.Log("Camera spawnata pentru nivelul " + nivelCurent);
     }
 
-    // Optional: spawn initial la start
+    // Spawn prima camera la start
     public void SpawnFirstRoom(Transform spawnPoint)
     {
-        SpawnRoom(spawnPoint.position, spawnPoint.rotation);
+        SpawnRoom(spawnPoint);
     }
 }

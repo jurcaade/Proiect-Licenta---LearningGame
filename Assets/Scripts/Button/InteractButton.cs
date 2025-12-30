@@ -19,7 +19,7 @@ public class InteractButton : MonoBehaviour
 
     void Start()
     {
-        // Reset usile la pozitia inchisa la spawn
+        // Reset usile la pozitia inchisa
         usaDeschisa = false;
         if (doorLeft != null)
             doorLeft.transform.localPosition = pozInchisaL;
@@ -45,10 +45,10 @@ public class InteractButton : MonoBehaviour
         // Deschide usa
         usaDeschisa = true;
 
-        // Spawn urmatoarea camera
+        // Spawn urmatoarea camera + obiecte nivel
         if (LevelManager.instance != null && nextRoomSpawn != null)
         {
-            LevelManager.instance.SpawnRoom(nextRoomSpawn.position, nextRoomSpawn.rotation);
+            LevelManager.instance.SpawnRoom(nextRoomSpawn);
         }
     }
 }
