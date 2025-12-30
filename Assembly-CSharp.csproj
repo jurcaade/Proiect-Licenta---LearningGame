@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Movement\PlayerCam.cs" />
     <Compile Include="Assets\Scripts\Button\InteractButton.cs" />
+    <Compile Include="Assets\Prefabs\RoomControler.cs" />
+    <Compile Include="Assets\Scripts\Button\LevelManager.cs" />
     <Compile Include="Assets\Scripts\Movement\MoveCamera.cs" />
     <Compile Include="Assets\Scripts\Movement\PlayerMovement.cs" />
   </ItemGroup>
