@@ -5,27 +5,48 @@ public class BitManager : MonoBehaviour
     [Header("Cuburi pentru acest nivel")]
     public BitCube[] bitCubes;
 
-    [Header("Referinta buton")]
-    public GameObject interactButtonObject; // Asigneaza butonul din prefab
+    [Header("Referinta buton (optional)")]
+    public GameObject interactButtonObject; 
 
     private bool nivelCompletat = false;
     private InteractButton interactButton;
 
     void Start()
     {
-        // Gaseste butonul in camera
-        if (interactButtonObject != null)
+        if (interactButtonObject != null && interactButton == null)
         {
-            interactButton = interactButtonObject.GetComponent<InteractButton>();
-        }
-        else
-        {
-            // Cauta butonul in scena daca nu e asignat manual
-            interactButton = FindObjectOfType<InteractButton>();
+            InitializeInteractButtonFromObject();
         }
 
-        // Verifica initial toate cuburile
         CheckAllBits();
+    }
+
+    public void SetupInteractButton(GameObject buttonObject)
+    {
+        if (buttonObject == null) return;
+
+        interactButtonObject = buttonObject;
+        InitializeInteractButtonFromObject();
+    }
+
+    void InitializeInteractButtonFromObject()
+    {
+        interactButton = interactButtonObject.GetComponent<InteractButton>();
+        if (interactButton == null)
+        {
+            Debug.LogWarning("[BitManager] Obiectul atribuit nu contine componenta InteractButton!");
+            return;
+        }
+
+        interactButton.SetInteractable(false);
+
+        Renderer buttonRenderer = interactButton.GetComponent<Renderer>();
+        if (buttonRenderer != null)
+            buttonRenderer.enabled = false;
+
+        Collider buttonCollider = interactButton.GetComponent<Collider>();
+        if (buttonCollider != null)
+            buttonCollider.enabled = false;
     }
 
     public void CheckAllBits()
@@ -59,7 +80,6 @@ public class BitManager : MonoBehaviour
     {
         if (interactButton != null)
         {
-            // Metoda 1: Daca butonul este ascuns initial
             Renderer buttonRenderer = interactButton.GetComponent<Renderer>();
             if (buttonRenderer != null)
                 buttonRenderer.enabled = true;
@@ -67,6 +87,8 @@ public class BitManager : MonoBehaviour
             Collider buttonCollider = interactButton.GetComponent<Collider>();
             if (buttonCollider != null)
                 buttonCollider.enabled = true;
+
+            interactButton.SetInteractable(true);
 
             Debug.Log("[BitManager] Buton activat!");
         }
@@ -85,12 +107,10 @@ public class BitManager : MonoBehaviour
         {
             if (cube != null)
             {
-                // Foloseste metoda publica ResetCube din BitCube
                 cube.ResetCube();
             }
         }
 
-        // Dezactiveaza butonul daca este necesar
         if (interactButton != null)
         {
             Renderer buttonRenderer = interactButton.GetComponent<Renderer>();
@@ -100,6 +120,8 @@ public class BitManager : MonoBehaviour
             Collider buttonCollider = interactButton.GetComponent<Collider>();
             if (buttonCollider != null)
                 buttonCollider.enabled = false;
+
+            interactButton.SetInteractable(false);
         }
 
         Debug.Log("[BitManager] Nivel resetat!");

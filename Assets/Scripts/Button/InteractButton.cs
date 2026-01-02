@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InteractButton : MonoBehaviour
 {
@@ -9,6 +9,9 @@ public class InteractButton : MonoBehaviour
 
     [Header("Next Room Spawn")]
     public Transform nextRoomSpawn;
+
+    [Header("Stare buton")]
+    public bool interactable = true; // default true — permite butonului din camera de spawn să funcționeze
 
     private bool usaDeschisa = false;
 
@@ -25,6 +28,9 @@ public class InteractButton : MonoBehaviour
             doorLeft.transform.localPosition = pozInchisaL;
         if (doorRight != null)
             doorRight.transform.localPosition = pozInchisaR;
+
+        // Asigură vizual/collider conform stării interactable la start (pe toate componentele din ierarhie)
+        ApplyRendererAndColliderState(interactable);
     }
 
     void Update()
@@ -38,8 +44,36 @@ public class InteractButton : MonoBehaviour
             doorRight.transform.localPosition = Vector3.MoveTowards(doorRight.transform.localPosition, pozDeschisaR, viteza * Time.deltaTime);
     }
 
+    // Setter public pentru a schimba starea din BitManager / LevelManager
+    public void SetInteractable(bool value)
+    {
+        interactable = value;
+        ApplyRendererAndColliderState(interactable);
+        Debug.Log($"[InteractButton] SetInteractable -> {interactable} pe {gameObject.name}");
+    }
+
+    void ApplyRendererAndColliderState(bool state)
+    {
+        // Activează/dezactivează toate Renderer-urile din obiect și copii
+        Renderer[] rends = GetComponentsInChildren<Renderer>(true);
+        foreach (var r in rends)
+            r.enabled = state;
+
+        // Activează/dezactivează toate Collider-ele din obiect și copii
+        Collider[] cols = GetComponentsInChildren<Collider>(true);
+        foreach (var c in cols)
+            c.enabled = state;
+    }
+
     void OnMouseDown()
     {
+        // Daca butonul nu e activ pentru interactiune, ignora click-ul
+        if (!interactable)
+        {
+            Debug.Log("[InteractButton] Buton indisponibil: nivelul nu e finalizat.");
+            return;
+        }
+
         if (usaDeschisa) return;
 
         // Deschide usa

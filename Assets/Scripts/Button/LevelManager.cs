@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,17 +19,20 @@ public class LevelManager : MonoBehaviour
     }
 
     // Spawn room + obiecte pentru nivelul curent
-    public void SpawnRoom(Transform spawnPoint)
+    // makeButtonInteractable = true -> permite deschiderea ușii din room imediat (utile pentru room-ul de spawn)
+    public void SpawnRoom(Transform spawnPoint, bool makeButtonInteractable = false)
     {
-        if (nivelCurent >= levelPrefabs.Length)
+        // Daca am terminat nivelele si nu suntem in modul "activate button imediat", nu spawnam
+        if (nivelCurent >= levelPrefabs.Length && !makeButtonInteractable)
         {
             Debug.Log("Toate nivelele au fost spawnate!");
             return;
         }
 
+        // Instantiem structura camerei (room)
         roomCurenta = Instantiate(roomPrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // Sterge BackWall daca exista
+        // Stergem eventualul BackWall din structura room-ului
         Transform[] toateObiectele = roomCurenta.GetComponentsInChildren<Transform>(true);
         foreach (Transform t in toateObiectele)
         {
@@ -37,12 +40,44 @@ public class LevelManager : MonoBehaviour
                 Destroy(t.gameObject);
         }
 
-        GameObject nivelPrefab = levelPrefabs[nivelCurent];
+        // Găsește componenta InteractButton din room (cea mai robustă metodă)
+        InteractButton interactBtnComp = roomCurenta.GetComponentInChildren<InteractButton>(true);
+        GameObject buttonGO = interactBtnComp != null ? interactBtnComp.gameObject : null;
+
+        Debug.Log($"[LevelManager] makeButtonInteractable={makeButtonInteractable}, interactBtnComp={(interactBtnComp != null ? interactBtnComp.gameObject.name : "null")}");
+
+        // Daca vrem buton activ imediat (ex: prima camera de spawn)
+        if (makeButtonInteractable && interactBtnComp != null)
+        {
+            interactBtnComp.SetInteractable(true);
+            Debug.Log("[LevelManager] Buton din room de spawn activat imediat.");
+        }
+
+        // Instantiem obiectele nivelului daca exista prefab
+        GameObject nivelPrefab = null;
+        if (nivelCurent < levelPrefabs.Length)
+            nivelPrefab = levelPrefabs[nivelCurent];
+
         if (nivelPrefab != null)
         {
             GameObject nivelObiecte = Instantiate(nivelPrefab, roomCurenta.transform);
             nivelObiecte.transform.localPosition = Vector3.zero; // aliniere
             nivelObiecte.transform.localRotation = Quaternion.identity;
+
+            // --- Legare explicită: dacă avem buton în room, dă-l la BitManager din nivel ---
+            if (buttonGO != null)
+            {
+                BitManager bm = nivelObiecte.GetComponentInChildren<BitManager>(true);
+                if (bm != null)
+                {
+                    bm.SetupInteractButton(buttonGO);
+                    Debug.Log("[LevelManager] Button legat la BitManager.");
+                }
+                else
+                {
+                    Debug.LogWarning("[LevelManager] Nu s-a găsit BitManager în nivelul instanțiat pentru a-i atribui butonul!");
+                }
+            }
         }
         else
         {
@@ -53,9 +88,10 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Camera spawnata pentru nivelul " + nivelCurent);
     }
 
-    // Spawn prima camera la start
+    // Spawn prima camera la start (butonul din această cameră va fi activabil imediat)
     public void SpawnFirstRoom(Transform spawnPoint)
     {
-        SpawnRoom(spawnPoint);
+        // true => butonul din camera de spawn poate fi folosit imediat
+        SpawnRoom(spawnPoint, true);
     }
 }
