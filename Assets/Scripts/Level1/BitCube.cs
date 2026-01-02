@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class BitCube : MonoBehaviour
@@ -9,7 +9,8 @@ public class BitCube : MonoBehaviour
 
     void Start()
     {
-        bitText.text = bitValue.ToString();
+        if (bitText != null)
+            bitText.text = bitValue.ToString();
         UpdateColor();
     }
 
@@ -17,13 +18,14 @@ public class BitCube : MonoBehaviour
     {
         // Schimba valoarea bitului (0->1, 1->0)
         bitValue = 1 - bitValue;
-        bitText.text = bitValue.ToString();
+        if (bitText != null)
+            bitText.text = bitValue.ToString();
         UpdateColor();
 
-        // Verifica daca toate cuburile sunt corecte
+        // Notifică BitManager că s-a schimbat un bit (nu ștergem SetupInteractButton)
         BitManager bm = FindObjectOfType<BitManager>();
         if (bm != null)
-            bm.CheckAllBits();
+            bm.NotifyBitChanged();
     }
 
     // Schimbat din private la public

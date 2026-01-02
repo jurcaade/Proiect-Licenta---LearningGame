@@ -1,15 +1,21 @@
+﻿using System;
 using UnityEngine;
 
 public class BitManager : MonoBehaviour
 {
-    [Header("Cuburi pentru acest nivel")]
+    // Event emis când se schimbă valoarea (decimală 0..15)
+    public event Action<int> OnValueChanged;
+
+    [Header("Cuburi pentru acest nivel (ordinea: 0 = MSB, ultima = LSB)")]
     public BitCube[] bitCubes;
 
     [Header("Referinta buton (optional)")]
-    public GameObject interactButtonObject; 
+    public GameObject interactButtonObject;
 
     private bool nivelCompletat = false;
     private InteractButton interactButton;
+
+    private int lastValue = -1;
 
     void Start()
     {
@@ -18,6 +24,8 @@ public class BitManager : MonoBehaviour
             InitializeInteractButtonFromObject();
         }
 
+        // Notifică inițial valoarea curentă
+        NotifyIfChanged();
         CheckAllBits();
     }
 
@@ -47,6 +55,43 @@ public class BitManager : MonoBehaviour
         Collider buttonCollider = interactButton.GetComponent<Collider>();
         if (buttonCollider != null)
             buttonCollider.enabled = false;
+    }
+
+    // Metodă apelată de BitCube când se schimbă un bit
+    public void NotifyBitChanged()
+    {
+        // Actualizează valoarea și notifica UI-urile abonate
+        NotifyIfChanged();
+
+        // Verifică dacă nivelul e complet (doar dacă nu e deja complet)
+        CheckAllBits();
+    }
+
+    // Calculul valorii ca număr zecimal din array-ul bitCubes
+    public int GetValue()
+    {
+        if (bitCubes == null || bitCubes.Length == 0) return 0;
+
+        int val = 0;
+        // Presupunem ordine: index 0 = MSB, ultima = LSB
+        for (int i = 0; i < bitCubes.Length; i++)
+        {
+            int b = 0;
+            if (bitCubes[i] != null)
+                b = Mathf.Clamp(bitCubes[i].bitValue, 0, 1);
+            val = (val << 1) | b;
+        }
+        return val;
+    }
+
+    private void NotifyIfChanged()
+    {
+        int current = GetValue();
+        if (current != lastValue)
+        {
+            lastValue = current;
+            OnValueChanged?.Invoke(current);
+        }
     }
 
     public void CheckAllBits()
@@ -123,6 +168,10 @@ public class BitManager : MonoBehaviour
 
             interactButton.SetInteractable(false);
         }
+
+        // resetează valoarea notificate
+        lastValue = -1;
+        NotifyIfChanged();
 
         Debug.Log("[BitManager] Nivel resetat!");
     }
