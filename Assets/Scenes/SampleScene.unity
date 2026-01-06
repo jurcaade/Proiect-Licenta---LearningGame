@@ -927,6 +927,7 @@ MonoBehaviour:
   doorRight: {fileID: 552112759}
   viteza: 2
   nextRoomSpawn: {fileID: 454663857}
+  interactable: 1
 --- !u!1 &1180157424 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1995899006183246294, guid: f231169a3f429534387231d72a06972d, type: 3}

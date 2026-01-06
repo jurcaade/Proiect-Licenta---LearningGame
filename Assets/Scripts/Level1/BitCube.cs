@@ -35,13 +35,7 @@ public class BitCube : MonoBehaviour
             bitText.text = bitValue.ToString();
 
         Renderer rend = GetComponent<Renderer>();
-        if (rend != null)
-        {
-            if (bitValue == correctBit)
-                rend.material.color = Color.green;
-            else
-                rend.material.color = Color.red;
-        }
+       
     }
 
     // Metoda pentru resetare cub (optional)
