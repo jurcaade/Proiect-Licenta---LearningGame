@@ -11,7 +11,6 @@ public class BitCube : MonoBehaviour
     {
         if (bitText != null)
             bitText.text = bitValue.ToString();
-        UpdateColor();
     }
 
     void OnMouseDown()
@@ -20,22 +19,11 @@ public class BitCube : MonoBehaviour
         bitValue = 1 - bitValue;
         if (bitText != null)
             bitText.text = bitValue.ToString();
-        UpdateColor();
 
         // Notifică BitManager că s-a schimbat un bit (nu ștergem SetupInteractButton)
         BitManager bm = FindObjectOfType<BitManager>();
         if (bm != null)
             bm.NotifyBitChanged();
-    }
-
-    // Schimbat din private la public
-    public void UpdateColor()
-    {
-        if (bitText != null)
-            bitText.text = bitValue.ToString();
-
-        Renderer rend = GetComponent<Renderer>();
-       
     }
 
     // Metoda pentru resetare cub (optional)
@@ -44,6 +32,5 @@ public class BitCube : MonoBehaviour
         bitValue = 0;
         if (bitText != null)
             bitText.text = "0";
-        UpdateColor();
     }
 }

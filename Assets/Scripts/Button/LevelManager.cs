@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -9,12 +11,14 @@ public class LevelManager : MonoBehaviour
 
     [Header("Prefabs nivele (doar obiecte)")]
     public GameObject[] levelPrefabs; // RoomLevel1, RoomLevel2, ...
-
+    [Header("UI Settings")]
+    public TextMeshPro levelDisplayText; // Trage aici obiectul Level Text din Prefab
     private int nivelCurent = 0;
     private GameObject roomCurenta;
 
     void Awake()
     {
+        Debug.Log("LevelManager Awake on " + gameObject.name);
         instance = this;
     }
 
@@ -86,6 +90,8 @@ public class LevelManager : MonoBehaviour
 
         nivelCurent++;
         Debug.Log("Camera spawnata pentru nivelul " + nivelCurent);
+        UpdateLevelText();
+
     }
 
     // Spawn prima camera la start (butonul din această cameră va fi activabil imediat)
@@ -94,4 +100,20 @@ public class LevelManager : MonoBehaviour
         // true => butonul din camera de spawn poate fi folosit imediat
         SpawnRoom(spawnPoint, true);
     }
+
+    public void UpdateLevelText()
+    {
+        if (levelDisplayText == null)
+        {
+            GameObject foundObj = GameObject.Find("LevelText");
+            if (foundObj != null)
+                levelDisplayText = foundObj.GetComponent<TextMeshPro>();
+        }
+
+        if (levelDisplayText != null)
+        {
+            levelDisplayText.text = "LEVEL " + nivelCurent;
+        }
+    }
+
 }
