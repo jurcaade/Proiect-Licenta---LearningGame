@@ -18,7 +18,6 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("LevelManager Awake on " + gameObject.name);
         instance = this;
     }
 
