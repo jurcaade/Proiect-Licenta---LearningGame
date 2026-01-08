@@ -5,84 +5,126 @@ public class InteractButton : MonoBehaviour
     [Header("Referinte usi")]
     public GameObject doorLeft;
     public GameObject doorRight;
-    public float viteza = 2f;
+    public float vitezaUsi = 2f;
+
+    [Header("Referinte Vizuale Buton")]
+    public MeshRenderer buttonRenderer;
+    [Header("Culori")]
+    [ColorUsage(true, true)]
+    public Color colorActiv = Color.green;
+    [ColorUsage(true, true)]
+    public Color colorInactiv = Color.red; // culoare când nu e interactiv
+
+
+    [Header("Animatie Apasare")]
+    public float distantaApasare = 0.05f;
+    public float vitezaAnimatie = 15f;
+    public Vector3 axaApasare = Vector3.down;
 
     [Header("Next Room Spawn")]
     public Transform nextRoomSpawn;
 
     [Header("Stare buton")]
-    public bool interactable = true; // default true — permite butonului din camera de spawn să funcționeze
+    public bool interactable = false;
 
     private bool usaDeschisa = false;
+    private Vector3 pozitieInitiala;
+    private Vector3 pozitieTinta;
+    private Material instanceMaterial;
+    private Collider buttonCollider;
 
-    private Vector3 pozInchisaL = new Vector3(1.4f, 0, 0);
-    private Vector3 pozDeschisaL = new Vector3(2.62f, 0, 0);
-    private Vector3 pozInchisaR = new Vector3(-1.4f, 0, 0);
-    private Vector3 pozDeschisaR = new Vector3(-2.62f, 0, 0);
+    void Awake()
+    {
+        // Memorăm poziția locală pentru a știi unde să revenim sau unde să apăsăm
+        pozitieInitiala = transform.localPosition;
+        pozitieTinta = pozitieInitiala;
+        buttonCollider = GetComponent<Collider>();
+
+        if (buttonRenderer != null)
+        {
+            instanceMaterial = buttonRenderer.material;
+        }
+    }
 
     void Start()
     {
-        // Reset usile la pozitia inchisa
         usaDeschisa = false;
-        if (doorLeft != null)
-            doorLeft.transform.localPosition = pozInchisaL;
-        if (doorRight != null)
-            doorRight.transform.localPosition = pozInchisaR;
+        if (doorLeft != null) doorLeft.transform.localPosition = new Vector3(1.4f, 0, 0);
+        if (doorRight != null) doorRight.transform.localPosition = new Vector3(-1.4f, 0, 0);
 
-        // Asigură vizual/collider conform stării interactable la start (pe toate componentele din ierarhie)
-        ApplyRendererAndColliderState(interactable);
+        UpdateVisuals();
     }
 
     void Update()
     {
-        if (!usaDeschisa) return;
+        // 1. Logica usilor
+        if (usaDeschisa)
+        {
+            if (doorLeft != null)
+                doorLeft.transform.localPosition = Vector3.MoveTowards(doorLeft.transform.localPosition, new Vector3(2.62f, 0, 0), vitezaUsi * Time.deltaTime);
+            if (doorRight != null)
+                doorRight.transform.localPosition = Vector3.MoveTowards(doorRight.transform.localPosition, new Vector3(-2.62f, 0, 0), vitezaUsi * Time.deltaTime);
+        }
 
-        if (doorLeft != null)
-            doorLeft.transform.localPosition = Vector3.MoveTowards(doorLeft.transform.localPosition, pozDeschisaL, viteza * Time.deltaTime);
+        // 2. Logica animatiei butonului (Lerp intre pozitia actuala si cea tinta)
+        transform.localPosition = Vector3.Lerp(transform.localPosition, pozitieTinta, Time.deltaTime * vitezaAnimatie);
 
-        if (doorRight != null)
-            doorRight.transform.localPosition = Vector3.MoveTowards(doorRight.transform.localPosition, pozDeschisaR, viteza * Time.deltaTime);
+        // Resetam tinta la pozitia initiala dupa ce a fost atinsa pozitia de "apasat" 
+        // (asta face butonul sa revina singur inapoi daca nu ar fi ascuns imediat)
+        if (Vector3.Distance(transform.localPosition, pozitieTinta) < 0.001f && pozitieTinta != pozitieInitiala)
+        {
+            pozitieTinta = pozitieInitiala;
+        }
     }
 
-    // Setter public pentru a schimba starea din BitManager / LevelManager
     public void SetInteractable(bool value)
     {
         interactable = value;
-        ApplyRendererAndColliderState(interactable);
-        Debug.Log($"[InteractButton] SetInteractable -> {interactable} pe {gameObject.name}");
+        UpdateVisuals();
     }
 
-    void ApplyRendererAndColliderState(bool state)
+    void UpdateVisuals()
     {
-        // Activează/dezactivează toate Renderer-urile din obiect și copii
-        Renderer[] rends = GetComponentsInChildren<Renderer>(true);
-        foreach (var r in rends)
-            r.enabled = state;
+        // Lasă renderer-ul vizibil mereu
+        if (buttonRenderer != null)
+            buttonRenderer.enabled = true;
 
-        // Activează/dezactivează toate Collider-ele din obiect și copii
-        Collider[] cols = GetComponentsInChildren<Collider>(true);
-        foreach (var c in cols)
-            c.enabled = state;
+        // Collider-ul se activează/dezactivează doar dacă interactable este true
+        if (buttonCollider != null)
+            buttonCollider.enabled = interactable;
+
+        // Schimbă culoarea materialului în funcție de starea interactable
+        if (instanceMaterial != null)
+        {
+            instanceMaterial.color = interactable ? colorActiv : colorInactiv;
+        }
     }
+
 
     void OnMouseDown()
     {
-        // Daca butonul nu e activ pentru interactiune, ignora click-ul
-        if (!interactable)
-        {
-            Debug.Log("[InteractButton] Buton indisponibil: nivelul nu e finalizat.");
-            return;
-        }
+        if (!interactable || usaDeschisa) return;
 
-        if (usaDeschisa) return;
+        // 1. Declanșăm mișcarea fizică a butonului (Animația)
+        pozitieTinta = pozitieInitiala + (axaApasare * distantaApasare);
 
-        // Deschide usa
+        // 2. Deschidem ușile
         usaDeschisa = true;
 
-        // Spawn urmatoarea camera + obiecte nivel
+        // 3. Spawnăm camera următoare
         if (LevelManager.instance != null && nextRoomSpawn != null)
         {
             LevelManager.instance.SpawnRoom(nextRoomSpawn);
         }
+
+        // 4. Așteptăm 0.2 secunde ca ochiul să vadă mișcarea butonului, apoi îl ascundem
+        // Folosim Invoke pentru a nu dezactiva collider-ul instantaneu
+        Invoke("HideButtonAfterClick", 0.2f);
+    }
+
+    void HideButtonAfterClick()
+    {
+        SetInteractable(false);
+
     }
 }

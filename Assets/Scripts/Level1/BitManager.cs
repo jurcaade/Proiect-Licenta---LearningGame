@@ -29,12 +29,16 @@ public class BitManager : MonoBehaviour
         CheckAllBits();
     }
 
-    public void SetupInteractButton(GameObject buttonObject)
+    // În BitManager.cs
+    public void SetupInteractButton(GameObject buttonObj)
     {
-        if (buttonObject == null) return;
-
-        interactButtonObject = buttonObject;
-        InitializeInteractButtonFromObject();
+        interactButton = buttonObj.GetComponent<InteractButton>();
+        if (interactButton != null)
+        {
+            // Forțăm butonul să fie oprit când este legat la un puzzle nou
+            interactButton.SetInteractable(false);
+            Debug.Log("[BitManager] Buton legat și forțat pe ROȘU la început de nivel.");
+        }
     }
 
     void InitializeInteractButtonFromObject()

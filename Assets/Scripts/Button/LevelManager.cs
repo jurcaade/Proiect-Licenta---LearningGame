@@ -1,61 +1,55 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
     [Header("Game Info")]
-    public string gameName = "Learning Game"; // Numele pe care îl scrii în Inspector
+    public string gameName = "Learning Game";
 
     [Header("Prefab Room (structura)")]
     public GameObject roomPrefab;
 
     [Header("Prefabs nivele (doar obiecte)")]
-    public GameObject[] levelPrefabs; // Index 0 = Obiecte Level 1, Index 1 = Level 2, etc.
+    public GameObject[] levelPrefabs;
 
-    private int nivelCurent = 0; // Indexul pentru levelPrefabs
+    private int nivelCurent = 0;
     private GameObject roomCurenta;
 
     void Awake()
     {
-        instance = this;
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
-    // SpawnRoom este acum mai inteligent: știe dacă e camera de start sau un nivel de joc
     public void SpawnRoom(Transform spawnPoint, bool isSpawnRoom = false)
     {
-        // 1. Verificăm dacă mai avem nivele (doar dacă nu e camera de start)
+        // Verificăm dacă mai avem nivele
         if (!isSpawnRoom && nivelCurent >= levelPrefabs.Length)
         {
-            Debug.Log("Toate nivelele au fost spawnate!");
+            Debug.Log("Toate nivelele au fost finalizate!");
             return;
         }
 
-        // 2. Instanțiem structura de bază a camerei
         roomCurenta = Instantiate(roomPrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // 3. Curățare perete spate (logica ta existentă)
         Transform[] toateObiectele = roomCurenta.GetComponentsInChildren<Transform>(true);
         foreach (Transform t in toateObiectele)
         {
             if (t.name == "BackWall") Destroy(t.gameObject);
         }
 
-        // 4. Gestionare Buton
         InteractButton interactBtnComp = roomCurenta.GetComponentInChildren<InteractButton>(true);
-        GameObject buttonGO = interactBtnComp != null ? interactBtnComp.gameObject : null;
 
-        // Dacă e camera de start, activăm butonul imediat să putem pleca
-        if (isSpawnRoom && interactBtnComp != null)
+        if (isSpawnRoom)
         {
-            interactBtnComp.SetInteractable(true);
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(true);
         }
-
-        // 5. Instanțiem puzzle-ul nivelului (doar dacă NU suntem în camera de spawn)
-        if (!isSpawnRoom)
+        else
         {
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(true);
+
             GameObject nivelPrefab = levelPrefabs[nivelCurent];
             if (nivelPrefab != null)
             {
@@ -63,49 +57,44 @@ public class LevelManager : MonoBehaviour
                 nivelObiecte.transform.localPosition = Vector3.zero;
                 nivelObiecte.transform.localRotation = Quaternion.identity;
 
-                // Legăm butonul din cameră la BitManager-ul din puzzle
-                if (buttonGO != null)
+                // Legăm butonul de BitManager
+                BitManager bm = nivelObiecte.GetComponentInChildren<BitManager>(true);
+                if (bm != null && interactBtnComp != null)
                 {
-                    BitManager bm = nivelObiecte.GetComponentInChildren<BitManager>(true);
-                    if (bm != null) bm.SetupInteractButton(buttonGO);
+                    bm.SetupInteractButton(interactBtnComp.gameObject);
                 }
             }
-            // Incrementăm nivelul abia după ce am spawnat obiectele
+
+            // Incrementăm indexul nivelului abia acum
             nivelCurent++;
         }
 
-        // 6. Actualizăm textul de pe ecran pentru instanța CURENTĂ de cameră
+        // 5. Actualizăm ecranul din noua cameră
         UpdateScreenText(roomCurenta, isSpawnRoom);
 
-        Debug.Log(isSpawnRoom ? "Spawn Room creată." : "Nivelul " + nivelCurent + " spawnat.");
+        Debug.Log(isSpawnRoom ? "Spawn Room creată." : "Nivelul " + nivelCurent + " pregătit.");
     }
 
     public void SpawnFirstRoom(Transform spawnPoint)
     {
-        SpawnRoom(spawnPoint, true); // true indică faptul că e Lobby-ul
+        SpawnRoom(spawnPoint, true);
     }
 
     private void UpdateScreenText(GameObject cameraInstance, bool isSpawnRoom)
     {
-        // Căutăm componenta TextMeshPro doar în interiorul noii camere create
         TextMeshPro textComp = cameraInstance.GetComponentInChildren<TextMeshPro>();
 
         if (textComp != null)
         {
             if (isSpawnRoom)
             {
-                // În camera de start punem numele jocului
                 textComp.text = gameName;
             }
             else
             {
-                // În nivele punem numărul corect
+                // nivelCurent a fost deja incrementat, deci va scrie corect "Level 1" la primul puzzle
                 textComp.text = "LEVEL " + nivelCurent;
             }
-        }
-        else
-        {
-            Debug.LogWarning("Nu am găsit componenta Text pe ecranul camerei noi!");
         }
     }
 }
