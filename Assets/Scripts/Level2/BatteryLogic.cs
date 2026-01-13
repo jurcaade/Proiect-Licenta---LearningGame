@@ -4,15 +4,33 @@ using TMPro;
 public class BatteryLogic : MonoBehaviour
 {
     public int bitValue = 0;
-    public TextMeshPro screenText; // Child-ul 'meshtext'
-    public Material matOn;  // Blue Emission
-    public Material matOff; // Red Emission
+
+    [Header("UI")]
+    public TextMeshPro screenText;
+
+    [Header("Material Index")]
+    public int emissionMaterialIndex = 1; // elementul cu Blue Emission
+
+    [Header("Emission Colors")]
+    public Color onColor = Color.cyan;
+    public Color offColor = Color.red;
+    public float emissionIntensity = 3f;
+
     private Renderer rend;
+    private Material[] mats;
 
     void Start()
     {
         rend = GetComponent<Renderer>();
-        UpdateVisuals();
+        mats = rend.materials;
+
+        SetEmission(offColor);
+        UpdateText();
+    }
+
+    void OnMouseDown()
+    {
+        Interact();
     }
 
     public void Interact()
@@ -23,7 +41,28 @@ public class BatteryLogic : MonoBehaviour
 
     void UpdateVisuals()
     {
-        if (rend != null) rend.material = (bitValue == 1) ? matOn : matOff;
+        if (bitValue == 1)
+            SetEmission(onColor);
+        else
+            SetEmission(offColor);
+
+        UpdateText();
+    }
+
+    // =========================
+    // EMISSION
+    // =========================
+    void SetEmission(Color color)
+    {
+        if (emissionMaterialIndex >= mats.Length) return;
+
+        mats[emissionMaterialIndex].EnableKeyword("_EMISSION");
+        mats[emissionMaterialIndex].SetColor("_EmissionColor", color * emissionIntensity);
+        rend.materials = mats;
+    }
+
+    void UpdateText()
+    {
         if (screenText != null)
         {
             screenText.text = bitValue.ToString();
