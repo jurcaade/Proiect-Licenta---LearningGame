@@ -2,20 +2,19 @@
 
 public class DeskButton : MonoBehaviour
 {
-    // Aici tragem obiectul Empty care are scriptul Level2Manager
-    public Level2Manager levelManager;
+    public Level2Manager manager;
 
-    // Detectează click-ul pe buton
-    void OnMouseDown()
+    public void Interact()
     {
-        if (levelManager != null)
+        if (manager != null)
         {
-            Debug.Log("Buton birou apăsat! Verificăm soluția...");
-            levelManager.CheckSolution();
+            // Acum metoda CheckSolution există în manager
+            manager.CheckSolution();
+            Debug.Log("[DeskButton] S-a verificat starea reactorului.");
         }
         else
         {
-            Debug.LogError("Referința Level2Manager lipsește de pe butonul de pe birou!");
+            Debug.LogWarning("[DeskButton] Referința către Level2Manager lipsește!");
         }
     }
 }

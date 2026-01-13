@@ -1189,11 +1189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bb18c85d228fd4ca8bca6b642dd7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryA: {fileID: 8243177258491103529}
-  batteryB: {fileID: 8529560127219059545}
-  batteryC: {fileID: 7563774099215791521}
-  projectorRenderer: {fileID: 5772783733078408119}
-  reactorLight: {fileID: 4724702351602636619}
+  battery1Placed: 0
+  battery2Placed: 0
+  battery3Placed: 0
 --- !u!1 &8721342379233649594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,7 +1628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 403796, guid: a8db70ed00a022d4ca7f82df02fbc4fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.054
+      value: 0.072
       objectReference: {fileID: 0}
     - target: {fileID: 403796, guid: a8db70ed00a022d4ca7f82df02fbc4fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1693,7 +1691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35218390a3d441f4187b7f21c0dd43f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelManager: {fileID: 5951050177156295124}
+  manager: {fileID: 0}
 --- !u!4 &5424414068807959128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 403796, guid: a8db70ed00a022d4ca7f82df02fbc4fb, type: 3}
@@ -1910,11 +1908,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b09ac1c0cceeaae479323b022bfe74b1, type: 3}
---- !u!23 &5772783733078408119 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2333002, guid: b09ac1c0cceeaae479323b022bfe74b1, type: 3}
-  m_PrefabInstance: {fileID: 5772783733080400637}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5772783733080825203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 442254, guid: b09ac1c0cceeaae479323b022bfe74b1, type: 3}
@@ -1988,11 +1981,6 @@ PrefabInstance:
 --- !u!4 &4445988044063509983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8009668721009810830, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
-  m_PrefabInstance: {fileID: 5952454490070372433}
-  m_PrefabAsset: {fileID: 0}
---- !u!108 &4724702351602636619 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 1372153212473739034, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
   m_PrefabInstance: {fileID: 5952454490070372433}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6490426517783697243

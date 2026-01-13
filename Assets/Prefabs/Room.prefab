@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 5030057923235586359}
   m_Layer: 0
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: ExitButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -703,6 +703,7 @@ MonoBehaviour:
   vitezaUsi: 2
   buttonRenderer: {fileID: 4594125740935332762}
   colorActiv: {r: 0, g: 1, b: 0, a: 1}
+  colorInactiv: {r: 1, g: 0, b: 0, a: 1}
   distantaApasare: 0.05
   vitezaAnimatie: 15
   axaApasare: {x: 0, y: -1, z: 0}
@@ -1482,6 +1483,7 @@ MonoBehaviour:
   vitezaUsi: 2
   buttonRenderer: {fileID: 0}
   colorActiv: {r: 0, g: 1, b: 0, a: 1}
+  colorInactiv: {r: 1, g: 0, b: 0, a: 1}
   distantaApasare: 0.05
   vitezaAnimatie: 15
   axaApasare: {x: 0, y: -1, z: 0}
