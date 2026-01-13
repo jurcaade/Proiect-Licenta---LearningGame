@@ -24,8 +24,7 @@ public class BatteryLogic : MonoBehaviour
         rend = GetComponent<Renderer>();
         mats = rend.materials;
 
-        SetEmission(offColor);
-        UpdateText();
+        UpdateVisuals();
     }
 
     void OnMouseDown()
