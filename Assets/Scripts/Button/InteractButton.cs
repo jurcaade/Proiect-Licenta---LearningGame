@@ -33,6 +33,7 @@ public class InteractButton : MonoBehaviour
     private Material instanceMaterial;
     private Collider buttonCollider;
 
+
     void Awake()
     {
         // Memorăm poziția locală pentru a știi unde să revenim sau unde să apăsăm
@@ -117,14 +118,7 @@ public class InteractButton : MonoBehaviour
             LevelManager.instance.SpawnRoom(nextRoomSpawn);
         }
 
-        // 4. Așteptăm 0.2 secunde ca ochiul să vadă mișcarea butonului, apoi îl ascundem
-        // Folosim Invoke pentru a nu dezactiva collider-ul instantaneu
-        Invoke("HideButtonAfterClick", 0.2f);
     }
 
-    void HideButtonAfterClick()
-    {
-        SetInteractable(false);
-
-    }
+    
 }

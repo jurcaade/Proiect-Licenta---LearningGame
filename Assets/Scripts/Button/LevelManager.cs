@@ -44,11 +44,11 @@ public class LevelManager : MonoBehaviour
 
         if (isSpawnRoom)
         {
-            if (interactBtnComp != null) interactBtnComp.SetInteractable(true);
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
         }
         else
         {
-            if (interactBtnComp != null) interactBtnComp.SetInteractable(true);
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
 
             GameObject nivelPrefab = levelPrefabs[nivelCurent];
             if (nivelPrefab != null)
@@ -62,6 +62,12 @@ public class LevelManager : MonoBehaviour
                 if (bm != null && interactBtnComp != null)
                 {
                     bm.SetupInteractButton(interactBtnComp.gameObject);
+                }
+
+                Level2Manager l2 = nivelObiecte.GetComponentInChildren<Level2Manager>(true);
+                if (l2 != null && interactBtnComp != null)
+                {
+                    l2.SetupInteractButton(interactBtnComp.gameObject);
                 }
             }
 

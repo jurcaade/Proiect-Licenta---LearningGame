@@ -11,11 +11,22 @@ public class Level2Manager : MonoBehaviour
     [Header("Referinte Reactor")]
     public Renderer projectorRenderer; // Mesh-ul cu 4 materiale
 
+    private InteractButton interactButton;
     private bool isSolved = false;
 
     void Start()
     {
         DisableEmissionAtStart();
+    }
+
+    public void SetupInteractButton(GameObject buttonObj)
+    {
+        interactButton = buttonObj.GetComponent<InteractButton>();
+        if (interactButton != null)
+        {
+            interactButton.SetInteractable(false);
+            Debug.Log("[Level2] Button linked and forced RED at start.");
+        }
     }
 
     // Apelata de butonul de verificare
@@ -63,8 +74,13 @@ public class Level2Manager : MonoBehaviour
 
             projectorRenderer.materials = mats;
         }
+        // 🟢 UNLOCK BUTTON
+        if (interactButton != null)
+        {
+            interactButton.SetInteractable(true);
+            Debug.Log("[Level2] Button unlocked!");
+        }
 
-      
     }
 
     // =========================

@@ -1068,6 +1068,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5030057923235586359, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
+      propertyPath: distantaApasare
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5460239937803765663, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
       propertyPath: m_IsActive
       value: 0
