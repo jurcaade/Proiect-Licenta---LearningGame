@@ -1,87 +1,126 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Level2Manager : MonoBehaviour
 {
-    [Header("Stare Baterii")]
-    public bool battery1Placed = false;
-    public bool battery2Placed = false;
-    public bool battery3Placed = false;
+    [Header("Baterii")]
+    public BatteryLogic batteryA;
+    public BatteryLogic batteryB;
+    public BatteryLogic batteryC;
 
-    private bool nivelCompletat = false;
-    private InteractButton interactButton;
+    [Header("Referinte Reactor")]
+    public Renderer projectorRenderer; // Mesh-ul cu 4 materiale
+
+    private bool isSolved = false;
 
     void Start()
     {
-        // Resetăm variabilele pentru a fi siguri că nu pornește gata completat
-        nivelCompletat = false;
-
-        // Căutăm butonul în scenă după Tag-ul "ExitButton"
-        GameObject buttonObj = GameObject.FindWithTag("ExitButton");
-
-        if (buttonObj != null)
-        {
-            interactButton = buttonObj.GetComponent<InteractButton>();
-
-            if (interactButton != null)
-            {
-                // FORȚĂM butonul să fie inactiv și ascuns la început
-                interactButton.SetInteractable(false);
-
-                Renderer buttonRenderer = interactButton.GetComponent<Renderer>();
-                if (buttonRenderer != null) buttonRenderer.enabled = false;
-
-                Collider buttonCollider = interactButton.GetComponent<Collider>();
-                if (buttonCollider != null) buttonCollider.enabled = false;
-
-                Debug.Log("[Level2Manager] Initializare: Butonul a fost forțat pe INACTIV.");
-            }
-        }
-    }
-    public void SetupInteractButton(GameObject buttonObj)
-    {
-        interactButton = buttonObj.GetComponent<InteractButton>();
-        if (interactButton != null)
-        {
-            // Forțăm butonul să fie oprit când este legat la un puzzle nou
-            interactButton.SetInteractable(false);
-            Debug.Log("[BitManager] Buton legat și forțat pe ROȘU la început de nivel.");
-        }
-    }
-    void Update()
-    {
-        // Verificăm dacă toate bateriile sunt puse corect
-        // DOAR dacă nivelul nu este deja marcat ca terminat
-        if (battery1Placed && battery2Placed && battery3Placed && !nivelCompletat)
-        {
-            ActivateButton();
-        }
+        DisableEmissionAtStart();
     }
 
+    // Apelata de butonul de verificare
     public void CheckSolution()
     {
-        if (battery1Placed && battery2Placed && battery3Placed)
+        if (isSolved) return;
+
+        bool A = batteryA != null && batteryA.bitValue == 1;
+        bool B = batteryB != null && batteryB.bitValue == 1;
+        bool C = batteryC != null && batteryC.bitValue == 1;
+
+        Debug.Log($"A={A}  B={B}  C={C}");
+
+        // (A && B) || !C
+        if ((A && B) || !C)
         {
-            ActivateButton();
+            Debug.Log("✅ REACTOR ACTIVAT");
+            ActivateSuccessEffects();
+        }
+        else
+        {
+            Debug.Log("❌ EROARE LOGICA");
+            StartCoroutine(FlashErrorEffect());
         }
     }
 
-    void ActivateButton()
+    // =========================
+    // SUCCESS
+    // =========================
+    void ActivateSuccessEffects()
     {
-        if (interactButton != null && !nivelCompletat)
+        isSolved = true;
+
+        if (projectorRenderer != null)
         {
-            nivelCompletat = true;
-            Debug.Log("[Level2Manager] Conditii indeplinite! Activez butonul.");
+            Material[] mats = projectorRenderer.materials;
 
-            // Facem butonul vizibil
-            Renderer buttonRenderer = interactButton.GetComponent<Renderer>();
-            if (buttonRenderer != null) buttonRenderer.enabled = true;
+            // Material 1 - ALB
+            mats[1].EnableKeyword("_EMISSION");
+            mats[1].SetColor("_EmissionColor", Color.white * 4f);
 
-            // Activăm coliziunea
-            Collider buttonCollider = interactButton.GetComponent<Collider>();
-            if (buttonCollider != null) buttonCollider.enabled = true;
+            // Material 3 - CYAN
+            mats[3].EnableKeyword("_EMISSION");
+            mats[3].SetColor("_EmissionColor", Color.cyan * 5f);
 
-            // Schimbăm starea în InteractButton (care ar trebui să îl facă VERDE)
-            interactButton.SetInteractable(true);
+            projectorRenderer.materials = mats;
+        }
+
+      
+    }
+
+    // =========================
+    // ERROR FLASH
+    // =========================
+    IEnumerator FlashErrorEffect()
+    {
+        if (projectorRenderer == null) yield break;
+
+        Material[] mats = projectorRenderer.materials;
+
+        Color prev1 = mats[1].GetColor("_EmissionColor");
+        Color prev3 = mats[3].GetColor("_EmissionColor");
+
+        mats[1].EnableKeyword("_EMISSION");
+        mats[3].EnableKeyword("_EMISSION");
+
+        mats[1].SetColor("_EmissionColor", Color.red * 3f);
+        mats[3].SetColor("_EmissionColor", Color.red * 3f);
+        projectorRenderer.materials = mats;
+
+        yield return new WaitForSeconds(0.5f);
+
+        mats[1].SetColor("_EmissionColor", prev1);
+        mats[3].SetColor("_EmissionColor", prev3);
+        projectorRenderer.materials = mats;
+    }
+
+    // =========================
+    // INITIAL STATE
+    // =========================
+    void DisableEmissionAtStart()
+    {
+        if (projectorRenderer == null) return;
+
+        Material[] mats = projectorRenderer.materials;
+
+        mats[1].DisableKeyword("_EMISSION");
+        mats[1].SetColor("_EmissionColor", Color.black);
+
+        mats[3].DisableKeyword("_EMISSION");
+        mats[3].SetColor("_EmissionColor", Color.black);
+
+        projectorRenderer.materials = mats;
+
+       
+    }
+
+    // =========================
+    // ROTATION
+    // =========================
+    void Update()
+    {
+        if (isSolved && projectorRenderer != null)
+        {
+            projectorRenderer.transform.Rotate(Vector3.up * Time.deltaTime * 60f);
         }
     }
 }
