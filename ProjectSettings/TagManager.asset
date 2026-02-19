@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Interactable
   - Buton
+  - ExitButton
+  - StackCube
   layers:
   - Default
   - TransparentFX
