@@ -16,6 +16,7 @@ public class StackCube : MonoBehaviour
             Color c = Color.white;
             if (cubeColor.ToLower() == "red") c = Color.red;
             else if (cubeColor.ToLower() == "blue") c = Color.blue;
+            else if (cubeColor.ToLower() == "green") c = Color.green;
 
             // Schimbă culoarea pentru toate sub-materialele obiectului
             foreach (Material mat in rend.materials)

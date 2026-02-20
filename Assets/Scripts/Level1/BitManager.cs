@@ -122,6 +122,7 @@ public class BitManager : MonoBehaviour
 
             // Activeaza butonul (il face vizibil/interactabil)
             ActivateButton();
+           
         }
     }
 
@@ -140,6 +141,7 @@ public class BitManager : MonoBehaviour
             interactButton.SetInteractable(true);
 
             Debug.Log("[BitManager] Buton activat!");
+            LevelManager.instance.ShowLevelCompleteMessage();
         }
         else
         {

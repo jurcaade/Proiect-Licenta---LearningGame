@@ -1,4 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro; // Necesar pentru textul de pe ecran
+using System.Collections; // Necesar pentru temporizator
 
 public class PlayerGrab : MonoBehaviour
 {
@@ -7,13 +9,15 @@ public class PlayerGrab : MonoBehaviour
     public float grabRange = 3f;
     public string grabbableTag = "StackCube";
 
+    [Header("UI Feedback")]
+    public TMP_Text warningText; // Slot-ul unde vei trage textul din Canvas
+
     private GameObject heldObject;
     private Rigidbody heldObjRb;
     private Collider heldObjCollider;
 
     void Update()
     {
-        // NOU: Acum verifica daca apesi E "SAU" (||) Click Stanga (0)
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             if (heldObject == null)
@@ -34,28 +38,28 @@ public class PlayerGrab : MonoBehaviour
         {
             if (hit.transform.CompareTag(grabbableTag))
             {
-                // NOU: Verificam regulile stivei inainte sa il luam
                 StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
                 if (cubeInfo != null && cubeInfo.isStacked)
                 {
                     StackBase stackBase = FindObjectOfType<StackBase>();
                     if (stackBase != null)
                     {
-                        // Daca NU e in varf, nu te lasam sa il iei
                         if (!stackBase.IsTopCube(hit.transform.gameObject))
                         {
-                            Debug.Log("Eroare LIFO: Poti lua doar cubul din varf!");
-                            return; // Oprim prinderea
+                            // AICI AFIȘĂM MESAJUL PE ECRAN
+                            if (warningText != null)
+                            {
+                                StartCoroutine(ShowWarningMessage("EROARE: Poți lua doar cubul din vârf!"));
+                            }
+                            return;
                         }
                         else
                         {
-                            // Daca e in varf, il scoti din stiva oficial (POP)
                             stackBase.RemoveCubeFromStack(hit.transform.gameObject);
                         }
                     }
                 }
 
-             
                 heldObject = hit.transform.gameObject;
                 heldObjRb = heldObject.GetComponent<Rigidbody>();
                 heldObjCollider = heldObject.GetComponent<Collider>();
@@ -64,6 +68,7 @@ public class PlayerGrab : MonoBehaviour
                 {
                     heldObjRb.isKinematic = true;
                     if (heldObjCollider != null) heldObjCollider.enabled = false;
+
                     heldObject.transform.position = holdPosition.position;
                     heldObject.transform.SetParent(holdPosition);
                 }
@@ -77,14 +82,35 @@ public class PlayerGrab : MonoBehaviour
         {
             heldObject.transform.SetParent(null);
 
+            Vector3 dirToCube = heldObject.transform.position - transform.position;
+            float distanceToCube = dirToCube.magnitude;
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, dirToCube.normalized, out hit, distanceToCube))
+            {
+                heldObject.transform.position = hit.point - (dirToCube.normalized * 0.25f);
+            }
+
             if (heldObjRb != null)
             {
                 heldObjRb.isKinematic = false;
-
-                // Pornim coliziunea inapoi ca sa poata lovi podeaua
                 if (heldObjCollider != null) heldObjCollider.enabled = true;
             }
+
             heldObject = null;
         }
+    }
+
+    // Funcția care afișează mesajul și îl face să dispară automat
+    IEnumerator ShowWarningMessage(string message)
+    {
+        warningText.text = message;
+        warningText.color = Color.red;
+
+        // Așteaptă 2 secunde
+        yield return new WaitForSeconds(2.0f);
+
+        // Șterge mesajul
+        warningText.text = "";
     }
 }

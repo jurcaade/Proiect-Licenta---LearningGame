@@ -79,6 +79,8 @@ public class Level2Manager : MonoBehaviour
         {
             interactButton.SetInteractable(true);
             Debug.Log("[Level2] Button unlocked!");
+            LevelManager.instance.ShowLevelCompleteMessage();
+
         }
 
     }
