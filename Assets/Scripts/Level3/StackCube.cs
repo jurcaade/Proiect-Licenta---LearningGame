@@ -1,10 +1,27 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StackCube : MonoBehaviour
 {
     [Header("Setari Cub")]
-    public string cubeColor; // Aici scrii "Red" sau "Blue" direct in Unity
+    public string cubeColor; // Red, Blue, Orange etc.
 
     [HideInInspector]
-    public bool isStacked = false; // Ne spune daca cubul e deja in stiva
+    public bool isStacked = false;
+
+    void Start()
+    {
+        Renderer rend = GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            Color c = Color.white;
+            if (cubeColor.ToLower() == "red") c = Color.red;
+            else if (cubeColor.ToLower() == "blue") c = Color.blue;
+
+            // Schimbă culoarea pentru toate sub-materialele obiectului
+            foreach (Material mat in rend.materials)
+            {
+                mat.color = c;
+            }
+        }
+    }
 }
