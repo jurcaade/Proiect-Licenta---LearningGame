@@ -98,6 +98,9 @@ public class LevelManager : MonoBehaviour
 
                 StackBase sb = nivelObiecte.GetComponentInChildren<StackBase>(true);
                 if (sb != null && interactBtnComp != null) sb.SetupInteractButton(interactBtnComp.gameObject);
+
+                SortingManager sm =nivelObiecte.GetComponentInChildren<SortingManager>(true);
+                if(sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
             }
 
             nivelCurent++; // Incrementăm nivelul abia aici
