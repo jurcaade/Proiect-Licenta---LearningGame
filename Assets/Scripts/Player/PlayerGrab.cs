@@ -8,6 +8,7 @@ public class PlayerGrab : MonoBehaviour
     public Transform holdPosition;
     public float grabRange = 3f;
     public string grabbableTag = "StackCube";
+    public string level5Tag = "DataPacket"; // Noul tag pentru nivelul 5
 
     [Header("UI Feedback")]
     public TMP_Text warningText; // Slot-ul unde vei trage textul din Canvas
@@ -36,30 +37,35 @@ public class PlayerGrab : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
         {
-            if (hit.transform.CompareTag(grabbableTag))
+            // VERIFICARE: Acceptă ori StackCube, ori DataPacket
+            if (hit.transform.CompareTag(grabbableTag) || hit.transform.CompareTag(level5Tag))
             {
-                StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
-                if (cubeInfo != null && cubeInfo.isStacked)
+                // Logica de stivă se aplică DOAR dacă obiectul este un StackCube
+                if (hit.transform.CompareTag(grabbableTag))
                 {
-                    StackBase stackBase = FindObjectOfType<StackBase>();
-                    if (stackBase != null)
+                    StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
+                    if (cubeInfo != null && cubeInfo.isStacked)
                     {
-                        if (!stackBase.IsTopCube(hit.transform.gameObject))
+                        StackBase stackBase = FindObjectOfType<StackBase>();
+                        if (stackBase != null)
                         {
-                            // AICI AFIȘĂM MESAJUL PE ECRAN
-                            if (warningText != null)
+                            if (!stackBase.IsTopCube(hit.transform.gameObject))
                             {
-                                StartCoroutine(ShowWarningMessage("EROARE: Poți lua doar cubul din vârf!"));
+                                if (warningText != null)
+                                {
+                                    StartCoroutine(ShowWarningMessage("EROARE: Poți lua doar cubul din vârf!"));
+                                }
+                                return;
                             }
-                            return;
-                        }
-                        else
-                        {
-                            stackBase.RemoveCubeFromStack(hit.transform.gameObject);
+                            else
+                            {
+                                stackBase.RemoveCubeFromStack(hit.transform.gameObject);
+                            }
                         }
                     }
                 }
 
+                // PRINDEREA PROPRIU-ZISĂ (valabilă pentru ambele tipuri)
                 heldObject = hit.transform.gameObject;
                 heldObjRb = heldObject.GetComponent<Rigidbody>();
                 heldObjCollider = heldObject.GetComponent<Collider>();
@@ -82,15 +88,6 @@ public class PlayerGrab : MonoBehaviour
         {
             heldObject.transform.SetParent(null);
 
-            Vector3 dirToCube = heldObject.transform.position - transform.position;
-            float distanceToCube = dirToCube.magnitude;
-            RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, dirToCube.normalized, out hit, distanceToCube))
-            {
-                heldObject.transform.position = hit.point - (dirToCube.normalized * 0.25f);
-            }
-
             if (heldObjRb != null)
             {
                 heldObjRb.isKinematic = false;
@@ -101,16 +98,11 @@ public class PlayerGrab : MonoBehaviour
         }
     }
 
-    // Funcția care afișează mesajul și îl face să dispară automat
     IEnumerator ShowWarningMessage(string message)
     {
         warningText.text = message;
         warningText.color = Color.red;
-
-        // Așteaptă 2 secunde
         yield return new WaitForSeconds(2.0f);
-
-        // Șterge mesajul
         warningText.text = "";
     }
 }

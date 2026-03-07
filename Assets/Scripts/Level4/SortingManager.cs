@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class SortingManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class SortingManager : MonoBehaviour
     public Transform spawnPoint;    // Punctul de unde pornește sfera
     public Transform decisionPoint; // Punctul unde se oprește sfera
     public TextMeshPro statusText;  // Textul de pe monitor (Scor: 0/4)
+
+    [Header("UI Feedback")]
+    public TMP_Text warningText;
 
     private GameObject currentSphere;
     private Color currentColor;
@@ -19,7 +23,7 @@ public class SortingManager : MonoBehaviour
     // DEFINIM CULORILE PERSONALIZATE AICI:
     // (Valorile din paranteză reprezintă cantitatea de Red, Green, Blue pe o scară de la 0 la 1)
     private Color colorPink = new Color(1f, 0.4f, 0.7f);   // Roz personalizat
-    private Color colorPurple = new Color(0.6f, 0.1f, 0.8f); // Mov personalizat
+    private Color colorOrange = new Color(1f, 0.5f, 0f);
 
     private Color[] culoriPosibile;
 
@@ -38,7 +42,7 @@ public class SortingManager : MonoBehaviour
         {
             Color.blue,
             colorPink,
-            colorPurple,
+            colorOrange,
             Color.yellow
         };
 
@@ -101,7 +105,6 @@ public class SortingManager : MonoBehaviour
         if (isMoving || currentSphere == null)
         {
             Debug.LogWarning("[TEST] Click ignorat! Sfera încă se mișcă sau nu există.");
-            return;
         }
 
         // Condiția jocului ACUM: Dacă e Albastru SAU Roz, răspunsul corect e TRUE. (Mov și Galben sunt FALSE).
@@ -120,7 +123,7 @@ public class SortingManager : MonoBehaviour
         }
 
         // Actualizăm ecranul din joc
-        if (statusText != null) statusText.text = "Sincronizare: " + score + "/4";
+        if (statusText != null) statusText.text = "SCOR: " + score + "/4";
 
         // Verificăm dacă a finalizat nivelul
         if (score >= 4)
@@ -141,5 +144,8 @@ public class SortingManager : MonoBehaviour
             Destroy(currentSphere);
             SpawnNewSphere();
         }
+
     }
+  
+
 }

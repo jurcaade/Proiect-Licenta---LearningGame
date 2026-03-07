@@ -101,6 +101,9 @@ public class LevelManager : MonoBehaviour
 
                 SortingManager sm =nivelObiecte.GetComponentInChildren<SortingManager>(true);
                 if(sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
+
+                ForLoopManager lm = nivelObiecte.GetComponentInChildren<ForLoopManager>(true);
+                if ((lm != null) && interactBtnComp != null) lm.SetupInteractButton(interactBtnComp.gameObject);
             }
 
             nivelCurent++; // Incrementăm nivelul abia aici
