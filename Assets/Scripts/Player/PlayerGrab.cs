@@ -88,6 +88,26 @@ public class PlayerGrab : MonoBehaviour
         {
             heldObject.transform.SetParent(null);
 
+            Vector3 dirToCube = heldObject.transform.position - transform.position;
+            float distanceToCube = dirToCube.magnitude;
+            RaycastHit hit;
+
+            // NOU: Creăm o mască ce ignoră layer-ul "InvisibleWall"
+            int wallLayer = LayerMask.NameToLayer("InvisibleWall");
+            int layerMask = ~0; // ~0 înseamnă că lovește absolut tot
+
+            if (wallLayer != -1)
+            {
+                // Scoatem layer-ul peretelui din mască
+                layerMask = ~(1 << wallLayer);
+            }
+
+            // Aplicăm masca în Raycast
+            if (Physics.Raycast(transform.position, dirToCube.normalized, out hit, distanceToCube, layerMask))
+            {
+                heldObject.transform.position = hit.point - (dirToCube.normalized * 0.25f);
+            }
+
             if (heldObjRb != null)
             {
                 heldObjRb.isKinematic = false;

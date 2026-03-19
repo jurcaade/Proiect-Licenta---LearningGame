@@ -86,7 +86,7 @@ public class ForLoopManager : MonoBehaviour
         }
         else
         {
-            string mesajEroare = (i < limitaBucla) ? "PREA PUȚINE PACHETE!" : "INDEX OUT OF BOUNDS!";
+            string mesajEroare = (i < limitaBucla) ? "PREA PUȚINE PACHETE!" : "PREA MULTE PACHETE!";
             StartCoroutine(EroareSiReset(mesajEroare));
         }
     }
