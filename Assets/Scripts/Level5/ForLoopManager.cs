@@ -15,6 +15,8 @@ public class ForLoopManager : MonoBehaviour
     [Header("Referinta UI (Canvas/Acelasi ca la Stiva)")]
     public TMP_Text warningText; // Trage aici obiectul de text din Canvas (UI)
 
+    public ElevatorMovement lift;
+
     [Header("Resetare Obiecte")]
     private List<GameObject> pacheteInScena = new List<GameObject>();
     private List<Vector3> pozitiiInitiale = new List<Vector3>();
@@ -47,6 +49,11 @@ public class ForLoopManager : MonoBehaviour
             warningText.text = "";
 
         ActualizeazaEcran();
+
+        if (lift != null)
+        {
+            lift.PornesteLiftul();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,7 +77,7 @@ public class ForLoopManager : MonoBehaviour
     void ActualizeazaEcran()
     {
         if (textStatus != null)
-            textStatus.text = "Status curent: i = " + i;
+            textStatus.text = "Status curent:\n i = " + i;
     }
 
     public void ApasaExecute()
@@ -78,6 +85,11 @@ public class ForLoopManager : MonoBehaviour
         if (i == limitaBucla)
         {
             Debug.Log("Bucla FOR corecta!");
+            if (lift != null)
+            {
+                lift.OpresteLiftul();
+            }
+
             if (levelButton != null)
             {
                 levelButton.SetInteractable(true);
