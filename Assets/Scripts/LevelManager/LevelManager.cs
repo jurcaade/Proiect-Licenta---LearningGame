@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
-using System.Collections; // Necesar pentru timpul de așteptare (Coroutine)
+using UnityEngine.SceneManagement; // Necesar pentru Restart
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class LevelManager : MonoBehaviour
     public GameObject[] levelPrefabs;
 
     [Header("UI Feedback Final Nivel")]
-    public GameObject levelCompletePanel; // Panoul negru (Vigneta)
-    public TMP_Text levelCompleteText;    // Textul de pe panou
+    public GameObject levelCompletePanel;
+    public TMP_Text levelCompleteText;
+
+    [Header("UI Ecran Final (Sfarsit Joc)")]
+    public GameObject finalPanel; // Panoul cu Quit și Restart
 
     private int nivelCurent = 0;
     private GameObject roomCurenta;
@@ -28,16 +32,47 @@ public class LevelManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // --- FUNCȚIA NOUĂ CARE AFIȘEAZĂ MESAJUL DINAMIC ---
+    void Start()
+    {
+        // Ne asigurăm că panoul final este închis la început
+        if (finalPanel != null) finalPanel.SetActive(false);
+    }
+
+    // --- FUNCȚIA MODIFICATĂ ---
     public void ShowLevelCompleteMessage()
     {
-        // Folosim tag-ul <size=50%> pentru a face a doua propozitie de doua ori mai mica
-        string mesaj = "NIVELUL " + nivelCurent + " COMPLETAT!\n<size=50%>Apasă butonul verde pentru a deschide ușa.</size>";
-
         StopAllCoroutines();
 
-        // Pornim afisarea
-        StartCoroutine(WinScreenRoutine(mesaj));
+        // Verificăm dacă am terminat ultimul nivel existent în listă
+        if (nivelCurent >= levelPrefabs.Length)
+        {
+            ShowFinalGameScreen();
+        }
+        else
+        {
+            // Mesaj normal pentru nivelele intermediare
+            string mesaj = "NIVELUL " + nivelCurent + " COMPLETAT!\n<size=50%>Apasă butonul verde pentru a deschide ușa.</size>";
+            StartCoroutine(WinScreenRoutine(mesaj));
+        }
+    }
+
+    private void ShowFinalGameScreen()
+    {
+        if (finalPanel != null)
+        {
+            finalPanel.SetActive(true);
+
+            // Dezactivăm panoul temporar dacă era activ
+            if (levelCompletePanel != null) levelCompletePanel.SetActive(false);
+
+            // Activăm cursorul pentru ca jucătorul să poată da click pe butoane
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Debug.LogError("Final Panel nu este asignat în Inspector!");
+        }
     }
 
     private IEnumerator WinScreenRoutine(string mesaj)
@@ -45,18 +80,27 @@ public class LevelManager : MonoBehaviour
         if (levelCompletePanel != null && levelCompleteText != null)
         {
             levelCompleteText.text = mesaj;
-
-            // Afișăm ecranul întunecat
             levelCompletePanel.SetActive(true);
-
-            // Îl lăsăm pe ecran 3.5 secunde ca să apuce jucătorul să citească
             yield return new WaitForSeconds(3.5f);
-
-            // Ascundem la loc ecranul
             levelCompletePanel.SetActive(false);
         }
     }
 
+    // --- METODE PENTRU BUTOANELE DE PE FINAL PANEL ---
+    public void RestartGame()
+    {
+        // Reîncarcă scena curentă
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame()
+    {
+        // Închide aplicația
+        Application.Quit();
+        Debug.Log("Jocul s-a închis.");
+    }
+
+    // ... restul metodelor tale (SpawnRoom, UpdateScreenText etc.) rămân neschimbate
     public void SpawnRoom(Transform spawnPoint, bool isSpawnRoom = false)
     {
         if (!isSpawnRoom && nivelCurent >= levelPrefabs.Length)
@@ -99,14 +143,14 @@ public class LevelManager : MonoBehaviour
                 StackBase sb = nivelObiecte.GetComponentInChildren<StackBase>(true);
                 if (sb != null && interactBtnComp != null) sb.SetupInteractButton(interactBtnComp.gameObject);
 
-                SortingManager sm =nivelObiecte.GetComponentInChildren<SortingManager>(true);
-                if(sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
+                SortingManager sm = nivelObiecte.GetComponentInChildren<SortingManager>(true);
+                if (sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
 
                 ForLoopManager lm = nivelObiecte.GetComponentInChildren<ForLoopManager>(true);
                 if ((lm != null) && interactBtnComp != null) lm.SetupInteractButton(interactBtnComp.gameObject);
             }
 
-            nivelCurent++; // Incrementăm nivelul abia aici
+            nivelCurent++;
         }
 
         UpdateScreenText(roomCurenta, isSpawnRoom);
