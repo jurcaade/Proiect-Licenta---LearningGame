@@ -33,7 +33,6 @@ public class InteractButton : MonoBehaviour
     private Material instanceMaterial;
     private Collider buttonCollider;
 
-
     void Awake()
     {
         // Memorăm poziția locală pentru a știi unde să revenim sau unde să apăsăm
@@ -101,7 +100,7 @@ public class InteractButton : MonoBehaviour
         }
     }
 
-
+    // --- FUNCȚIA MODIFICATĂ ---
     void OnMouseDown()
     {
         if (!interactable || usaDeschisa) return;
@@ -109,16 +108,26 @@ public class InteractButton : MonoBehaviour
         // 1. Declanșăm mișcarea fizică a butonului (Animația)
         pozitieTinta = pozitieInitiala + (axaApasare * distantaApasare);
 
-        // 2. Deschidem ușile
-        usaDeschisa = true;
-
-        // 3. Spawnăm camera următoare
-        if (LevelManager.instance != null && nextRoomSpawn != null)
+        // Verificăm dacă jocul s-a terminat (dacă suntem la ultimul nivel)
+        if (LevelManager.instance != null && LevelManager.instance.IsGameComplete())
         {
-            LevelManager.instance.SpawnRoom(nextRoomSpawn);
+            // Apelăm ecranul de final
+            LevelManager.instance.ShowFinalGameScreen();
+
+            // Opțional: Blocăm butonul ca să nu mai fie apăsat de mai multe ori
+            SetInteractable(false);
         }
+        else
+        {
+            // Jocul NU s-a terminat, deci continuăm ca de obicei
+            // 2. Deschidem ușile
+            usaDeschisa = true;
 
+            // 3. Spawnăm camera următoare
+            if (LevelManager.instance != null && nextRoomSpawn != null)
+            {
+                LevelManager.instance.SpawnRoom(nextRoomSpawn);
+            }
+        }
     }
-
-    
 }

@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Drawing;
 using TMPro;
+using UnityEngine;
 
 [RequireComponent(typeof(TMP_Text))]
 public class BinaryToDecimalText : MonoBehaviour
@@ -40,6 +41,6 @@ public class BinaryToDecimalText : MonoBehaviour
     private void UpdateText(int value)
     {
         if (text3D != null)
-            text3D.text = "Rezultat actual: "+value.ToString();
+            text3D.text = "<b><color=#A0A0A0>REZULTAT ACTUAL:</color></b> <size=150%><color=#00FFFF>" + value + "</color></size>";
     }
 }

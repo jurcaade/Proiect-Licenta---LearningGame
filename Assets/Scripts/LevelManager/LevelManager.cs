@@ -43,20 +43,22 @@ public class LevelManager : MonoBehaviour
     {
         StopAllCoroutines();
 
-        // Verificăm dacă am terminat ultimul nivel existent în listă
-        if (nivelCurent >= levelPrefabs.Length)
-        {
-            ShowFinalGameScreen();
-        }
-        else
-        {
-            // Mesaj normal pentru nivelele intermediare
-            string mesaj = "NIVELUL " + nivelCurent + " COMPLETAT!\n<size=50%>Apasă butonul verde pentru a deschide ușa.</size>";
-            StartCoroutine(WinScreenRoutine(mesaj));
-        }
+        // Așteptăm ca jucătorul să apese butonul fizic!
+        string mesaj;
+      
+            mesaj = "<b>NIVELUL " + nivelCurent + " COMPLETAT!</b>\n<size=50%><color=#00FFFF>Apasă butonul verde pentru a deschide ușa.</size></color>";
+
+        StartCoroutine(WinScreenRoutine(mesaj));
     }
 
-    private void ShowFinalGameScreen()
+    // --- Funcție nouă pentru a verifica dacă suntem la final ---
+    public bool IsGameComplete()
+    {
+        return nivelCurent >= levelPrefabs.Length;
+    }
+
+    // --- Făcută PUBLICĂ pentru a fi apelată de InteractButton ---
+    public void ShowFinalGameScreen()
     {
         if (finalPanel != null)
         {
@@ -100,7 +102,6 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Jocul s-a închis.");
     }
 
-    // ... restul metodelor tale (SpawnRoom, UpdateScreenText etc.) rămân neschimbate
     public void SpawnRoom(Transform spawnPoint, bool isSpawnRoom = false)
     {
         if (!isSpawnRoom && nivelCurent >= levelPrefabs.Length)
