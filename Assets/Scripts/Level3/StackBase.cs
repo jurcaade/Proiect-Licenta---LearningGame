@@ -104,8 +104,7 @@ public class StackBase : MonoBehaviour
                 rb.isKinematic = false;
             }
 
-            // Daca a scos un cub, cu siguranta nivelul nu mai e completat corect,
-            // asa ca dezactivam butonul (il facem rosu la loc).
+            
             if (levelButton != null)
             {
                 levelButton.SetInteractable(false);
@@ -115,15 +114,13 @@ public class StackBase : MonoBehaviour
 
     void CheckWinCondition()
     {
-        // Daca nu sunt destule cuburi inca, renuntam
         if (currentColorStack.Count != targetSequence.Count) return;
 
-        // Verificam sa vedem daca culorile se potrivesc (IGNORAM majusculele)
         for (int i = 0; i < targetSequence.Count; i++)
         {
             if (currentColorStack[i].ToLower() != targetSequence[i].ToLower())
             {
-                return; // Daca nu se potrivesc, iesim din functie
+                return; 
             }
         }
 

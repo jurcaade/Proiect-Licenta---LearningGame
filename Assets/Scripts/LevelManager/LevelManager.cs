@@ -165,10 +165,42 @@ public class LevelManager : MonoBehaviour
     private void UpdateScreenText(GameObject cameraInstance, bool isSpawnRoom)
     {
         TextMeshPro textComp = cameraInstance.GetComponentInChildren<TextMeshPro>();
-        if (textComp != null)
+        if (textComp == null) return;
+
+        if (isSpawnRoom)
         {
-            if (isSpawnRoom) textComp.text = gameName;
-            else textComp.text = "LEVEL " + nivelCurent;
+            textComp.text = $"<size=120%>{gameName}</size>\n<size=60%><color=#A0A0A0>Sistem de testare activat</color></size>";
+        }
+        else
+        {
+            string descriere = "";
+
+            // Folosim switch pentru a alege descrierea în funcție de nivel
+            switch (nivelCurent)
+            {
+                case 1:
+                    descriere = "Conversie Binar - Zecimal";
+                    break;
+                case 2:
+                    descriere = "Circuite și Logică";
+                    break;
+                case 3:
+                    descriere = "Structuri de Date (Stiva)";
+                    break;
+                case 4:
+                    descriere = "Operatori Logici (IF / OR)";
+                    break;
+                case 5:
+                    descriere = "Structuri Repetitive (FOR)";
+                    break;
+                default:
+                    descriere = "Testare în curs...";
+                    break;
+            }
+
+            // Formatăm textul: Titlu mare și Subtitlu mic colorat gri
+            textComp.text = $"LEVEL <color=#00FFFF>{nivelCurent}</color>\n" +
+                            $"<size=50%><color=#A0A0A0>{descriere}</color></size>";
         }
     }
 }

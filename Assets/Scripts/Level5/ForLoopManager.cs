@@ -13,7 +13,8 @@ public class ForLoopManager : MonoBehaviour
     public TextMeshPro textStatus;
 
     [Header("Referinta UI (Canvas/Acelasi ca la Stiva)")]
-    public TMP_Text warningText; // Trage aici obiectul de text din Canvas (UI)
+    public TMP_Text feedbackText;
+    public GameObject feedbackPanel;  // Trage aici obiectul de text din Canvas (UI)
 
     public ElevatorMovement lift;
 
@@ -45,8 +46,8 @@ public class ForLoopManager : MonoBehaviour
 
         
 
-        if (warningText != null)
-            warningText.text = "";
+        if (feedbackText != null)
+            feedbackText.text = "";
 
         ActualizeazaEcran();
 
@@ -77,7 +78,7 @@ public class ForLoopManager : MonoBehaviour
     void ActualizeazaEcran()
     {
         if (textStatus != null)
-            textStatus.text = "Status curent:\n i = " + i;
+            textStatus.text = $"<size=80%><color=#A0A0A0>STATUS CURENT:</color></size>\n<b><color=#569CD6>i</color> = <color=#B5CEA8>{i}</color></b>";
     }
 
     public void ApasaExecute()
@@ -105,44 +106,42 @@ public class ForLoopManager : MonoBehaviour
 
     IEnumerator EroareSiReset(string mesaj)
     {
-        // 1. Afisam mesajul pe Canvas (rosu)
-        if (warningText != null)
+        // 1. Activăm Panel-ul și afișăm eroarea
+        if (feedbackPanel != null) feedbackPanel.SetActive(true);
+
+        if (feedbackText != null)
         {
-            warningText.text = "EROARE: " + mesaj;
-            warningText.color = Color.red;
+            // Folosim tag-uri de marime si bold pentru impact
+            feedbackText.text = $"<color=#FF4C4C>Număr incorect de pachete</color>\n{mesaj}";
         }
 
         yield return new WaitForSeconds(2.5f);
 
-        // 2. Afisam resetarea (galben)
-        if (warningText != null)
+        // 2. Schimbăm mesajul pentru resetare
+        if (feedbackText != null)
         {
-            warningText.text = "RESETARE SISTEM...";
-            warningText.color = Color.yellow;
+            feedbackText.text = "<color=#FFEB04>Se resetează nivelul...</color>";
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
-        // 3. Resetam logic si curatam textul
+        // 3. Resetăm logica și închidem tot UI-ul de feedback
         i = 0;
         ActualizeazaEcran();
 
-        if (warningText != null)
-            warningText.text = "";
+        if (feedbackText != null) feedbackText.text = "";
+        if (feedbackPanel != null) feedbackPanel.SetActive(false); // Ascundem fundalul negru
 
-        // 4. Resetam cuburile fizic
+        // 4. Resetăm cuburile fizic (codul tău existent...)
         for (int index = 0; index < pacheteInScena.Count; index++)
         {
             GameObject cub = pacheteInScena[index];
             Rigidbody rb = cub.GetComponent<Rigidbody>();
-
             if (rb != null)
             {
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                rb.isKinematic = false;
             }
-
             cub.transform.position = pozitiiInitiale[index];
             cub.transform.rotation = rotatiiInitiale[index];
         }

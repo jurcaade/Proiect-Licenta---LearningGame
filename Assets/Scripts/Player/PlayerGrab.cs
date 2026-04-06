@@ -11,6 +11,7 @@ public class PlayerGrab : MonoBehaviour
     public string level5Tag = "DataPacket"; // Noul tag pentru nivelul 5
 
     [Header("UI Feedback")]
+    public GameObject warningPanel;
     public TMP_Text warningText; // Slot-ul unde vei trage textul din Canvas
 
     private GameObject heldObject;
@@ -53,7 +54,7 @@ public class PlayerGrab : MonoBehaviour
                             {
                                 if (warningText != null)
                                 {
-                                    StartCoroutine(ShowWarningMessage("EROARE: Poți lua doar cubul din vârf!"));
+                                    StartCoroutine(ShowWarningMessage("EROARE: Poți muta doar cubul din vârf! (LIFO)"));
                                 }
                                 return;
                             }
@@ -120,9 +121,11 @@ public class PlayerGrab : MonoBehaviour
 
     IEnumerator ShowWarningMessage(string message)
     {
+        warningPanel.SetActive(true);   // arată panel-ul
         warningText.text = message;
-        warningText.color = Color.red;
-        yield return new WaitForSeconds(2.0f);
-        warningText.text = "";
+
+        yield return new WaitForSeconds(2f);
+
+        warningPanel.SetActive(false);  // ascunde panel-ul
     }
 }

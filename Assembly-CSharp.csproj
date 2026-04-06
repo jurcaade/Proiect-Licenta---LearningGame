@@ -110,6 +110,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Level1\BitManager.cs" />
     <Compile Include="Assets\Scripts\Level5\ForLoopManager.cs" />
+    <Compile Include="Assets\Scripts\LevelManager\DoorTrigger.cs" />
     <Compile Include="Assets\Scripts\Level2\BatteryLogic.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Scripts\Level3\StackCube.cs" />

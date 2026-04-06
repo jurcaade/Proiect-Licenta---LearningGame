@@ -13,8 +13,7 @@ public class InteractButton : MonoBehaviour
     [ColorUsage(true, true)]
     public Color colorActiv = Color.green;
     [ColorUsage(true, true)]
-    public Color colorInactiv = Color.red; // culoare când nu e interactiv
-
+    public Color colorInactiv = Color.red;
 
     [Header("Animatie Apasare")]
     public float distantaApasare = 0.05f;
@@ -27,7 +26,11 @@ public class InteractButton : MonoBehaviour
     [Header("Stare buton")]
     public bool interactable = false;
 
-    private bool usaDeschisa = false;
+    // --- VARIABILE MODIFICATE AICI ---
+    private bool seDeschide = false;
+    private bool seInchide = false;
+    private bool actiuneFinalizata = false; // Ca sa nu putem apasa de 100 de ori
+
     private Vector3 pozitieInitiala;
     private Vector3 pozitieTinta;
     private Material instanceMaterial;
@@ -35,7 +38,6 @@ public class InteractButton : MonoBehaviour
 
     void Awake()
     {
-        // Memorăm poziția locală pentru a știi unde să revenim sau unde să apăsăm
         pozitieInitiala = transform.localPosition;
         pozitieTinta = pozitieInitiala;
         buttonCollider = GetComponent<Collider>();
@@ -48,7 +50,11 @@ public class InteractButton : MonoBehaviour
 
     void Start()
     {
-        usaDeschisa = false;
+        seDeschide = false;
+        seInchide = false;
+        actiuneFinalizata = false;
+
+        // Pozitiile initiale (inchise)
         if (doorLeft != null) doorLeft.transform.localPosition = new Vector3(1.4f, 0, 0);
         if (doorRight != null) doorRight.transform.localPosition = new Vector3(-1.4f, 0, 0);
 
@@ -57,20 +63,26 @@ public class InteractButton : MonoBehaviour
 
     void Update()
     {
-        // 1. Logica usilor
-        if (usaDeschisa)
+        // 1. Logica usilor (Deschidere)
+        if (seDeschide)
         {
             if (doorLeft != null)
                 doorLeft.transform.localPosition = Vector3.MoveTowards(doorLeft.transform.localPosition, new Vector3(2.62f, 0, 0), vitezaUsi * Time.deltaTime);
             if (doorRight != null)
                 doorRight.transform.localPosition = Vector3.MoveTowards(doorRight.transform.localPosition, new Vector3(-2.62f, 0, 0), vitezaUsi * Time.deltaTime);
         }
+        // 1.5 Logica usilor (Inchidere)
+        else if (seInchide)
+        {
+            if (doorLeft != null)
+                doorLeft.transform.localPosition = Vector3.MoveTowards(doorLeft.transform.localPosition, new Vector3(1.4f, 0, 0), vitezaUsi * Time.deltaTime);
+            if (doorRight != null)
+                doorRight.transform.localPosition = Vector3.MoveTowards(doorRight.transform.localPosition, new Vector3(-1.4f, 0, 0), vitezaUsi * Time.deltaTime);
+        }
 
-        // 2. Logica animatiei butonului (Lerp intre pozitia actuala si cea tinta)
+        // 2. Logica animatiei butonului
         transform.localPosition = Vector3.Lerp(transform.localPosition, pozitieTinta, Time.deltaTime * vitezaAnimatie);
 
-        // Resetam tinta la pozitia initiala dupa ce a fost atinsa pozitia de "apasat" 
-        // (asta face butonul sa revina singur inapoi daca nu ar fi ascuns imediat)
         if (Vector3.Distance(transform.localPosition, pozitieTinta) < 0.001f && pozitieTinta != pozitieInitiala)
         {
             pozitieTinta = pozitieInitiala;
@@ -85,49 +97,47 @@ public class InteractButton : MonoBehaviour
 
     void UpdateVisuals()
     {
-        // Lasă renderer-ul vizibil mereu
         if (buttonRenderer != null)
             buttonRenderer.enabled = true;
 
-        // Collider-ul se activează/dezactivează doar dacă interactable este true
         if (buttonCollider != null)
             buttonCollider.enabled = interactable;
 
-        // Schimbă culoarea materialului în funcție de starea interactable
         if (instanceMaterial != null)
         {
             instanceMaterial.color = interactable ? colorActiv : colorInactiv;
         }
     }
 
-    // --- FUNCȚIA MODIFICATĂ ---
     void OnMouseDown()
     {
-        if (!interactable || usaDeschisa) return;
+        // Daca butonul nu e interactabil SAU daca deja am apasat pe el, iesim
+        if (!interactable || actiuneFinalizata) return;
 
-        // 1. Declanșăm mișcarea fizică a butonului (Animația)
         pozitieTinta = pozitieInitiala + (axaApasare * distantaApasare);
 
-        // Verificăm dacă jocul s-a terminat (dacă suntem la ultimul nivel)
         if (LevelManager.instance != null && LevelManager.instance.IsGameComplete())
         {
-            // Apelăm ecranul de final
             LevelManager.instance.ShowFinalGameScreen();
-
-            // Opțional: Blocăm butonul ca să nu mai fie apăsat de mai multe ori
             SetInteractable(false);
         }
         else
         {
-            // Jocul NU s-a terminat, deci continuăm ca de obicei
-            // 2. Deschidem ușile
-            usaDeschisa = true;
+            seDeschide = true;
+            seInchide = false; // Ne asiguram ca nu se inchide in timp ce se deschide
+            actiuneFinalizata = true; // Blocăm butonul ca să nu mai deschidă uși duplicate
 
-            // 3. Spawnăm camera următoare
             if (LevelManager.instance != null && nextRoomSpawn != null)
             {
                 LevelManager.instance.SpawnRoom(nextRoomSpawn);
             }
         }
+    }
+
+    // --- FUNCTIE NOUA PE CARE O VA APELA TRIGGER-UL ---
+    public void InchideUsa()
+    {
+        seDeschide = false; // Oprim deschiderea
+        seInchide = true;   // Pornim inchiderea spre pozitita 1.4f
     }
 }
