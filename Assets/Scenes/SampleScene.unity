@@ -288,8 +288,8 @@ MonoBehaviour:
   roomPrefab: {fileID: 564746862190761252}
   levelPrefabs:
   - {fileID: 2395297661615708173, guid: 5ca084a068398964ba78729954823742, type: 3}
-  - {fileID: 8721342379233649594, guid: c787ddfc1557318458b9524a4d35cb1b, type: 3}
-  - {fileID: 6335539015593871789, guid: 403149db88bde8144b3746f5101c0735, type: 3}
+  - {fileID: 2395297661615708173, guid: 5ca084a068398964ba78729954823742, type: 3}
+  - {fileID: 2395297661615708173, guid: 5ca084a068398964ba78729954823742, type: 3}
   - {fileID: 276083558411696601, guid: 2e9e416602607d14e863f6695e7e5218, type: 3}
   - {fileID: 8064673624460193659, guid: 60b6e7ee591d7d54286ad7c8cce1ae49, type: 3}
   levelCompletePanel: {fileID: 334635275}
@@ -919,8 +919,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_AnchoredPosition: {x: -0.5001221, y: 0}
+  m_SizeDelta: {x: 10.999728, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &470980631 stripped
 Transform:
@@ -2652,6 +2652,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 5.6615
       objectReference: {fileID: 0}
+    - target: {fileID: 5030057923235586359, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
+      propertyPath: doorOpenClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a268e9b8a49cbb34982802ca354e473d, type: 3}
+    - target: {fileID: 5030057923235586359, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
+      propertyPath: buttonPressClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
     - target: {fileID: 8009668721009810830, guid: c89280b565a1c054189ac3dde3661efa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

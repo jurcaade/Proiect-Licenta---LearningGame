@@ -5,32 +5,58 @@ public class DoorTrigger : MonoBehaviour
     [Header("Trage butonul de la ușa pe care vrei să o închizi")]
     public InteractButton butonUsa;
 
+    private Collider triggerCollider;
+    private bool hasTriggered;
+
+    private void Awake()
+    {
+        triggerCollider = GetComponent<Collider>();
+    }
+
+    private void OnEnable()
+    {
+        hasTriggered = false;
+
+        if (triggerCollider != null)
+        {
+            triggerCollider.enabled = true;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        // 1. Log detaliat: Vedem exact secunda în care s-a declanșat și ce tag are obiectul
+        TryCloseDoor(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        TryCloseDoor(other);
+    }
+
+    private void TryCloseDoor(Collider other)
+    {
+        if (hasTriggered || other == null)
+        {
+            return;
+        }
+
+        if (butonUsa == null || !butonUsa.DoorWasOpened)
+        {
+            return;
+        }
 
         if (other.transform.root.CompareTag("Player"))
 
         {
-            // 2. Playerul a fost detectat
             Debug.Log($"[Timp: {Time.time}] Player-ul a fost detectat cu succes!");
 
-            if (butonUsa != null)
-            {
-                // 3. Butonul există și dăm comanda
-                butonUsa.InchideUsa();
-            }
-            else
-            {
-                // 4. Eroarea de referință
-            }
+            butonUsa.InchideUsa();
+            hasTriggered = true;
 
-            // Oprim trigger-ul
-            GetComponent<Collider>().enabled = false;
-        }
-        else
-        {
-            // 5. Dacă altceva a lovit trigger-ul (nu player-ul)
+            if (triggerCollider != null)
+            {
+                triggerCollider.enabled = false;
+            }
         }
     }
 }

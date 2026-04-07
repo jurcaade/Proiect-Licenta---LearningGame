@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class InteractButton : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class InteractButton : MonoBehaviour
     private Vector3 pozitieTinta;
     private Material instanceMaterial;
     private Collider buttonCollider;
+    private InteractButtonAudio audioFeedback;
+
+    public bool DoorWasOpened => actiuneFinalizata;
 
     void Awake()
     {
@@ -46,6 +50,7 @@ public class InteractButton : MonoBehaviour
         {
             instanceMaterial = buttonRenderer.material;
         }
+        audioFeedback = GetComponent<InteractButtonAudio>();
     }
 
     void Start()
@@ -91,8 +96,14 @@ public class InteractButton : MonoBehaviour
 
     public void SetInteractable(bool value)
     {
+        bool wasInteractable = interactable;
         interactable = value;
         UpdateVisuals();
+
+        if (!wasInteractable && interactable)
+        {
+            audioFeedback?.PlaySuccess();
+        }
     }
 
     void UpdateVisuals()
@@ -118,11 +129,14 @@ public class InteractButton : MonoBehaviour
 
         if (LevelManager.instance != null && LevelManager.instance.IsGameComplete())
         {
+            audioFeedback?.PlayButtonPress();
             LevelManager.instance.ShowFinalGameScreen();
             SetInteractable(false);
         }
         else
         {
+            audioFeedback?.PlayButtonPress();
+            audioFeedback?.PlayDoorOpen();
             seDeschide = true;
             seInchide = false; // Ne asiguram ca nu se inchide in timp ce se deschide
             actiuneFinalizata = true; // Blocăm butonul ca să nu mai deschidă uși duplicate

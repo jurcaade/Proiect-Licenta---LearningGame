@@ -100,6 +100,10 @@ public class LevelManager : MonoBehaviour
         // Închide aplicația
         Application.Quit();
         Debug.Log("Jocul s-a închis.");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     public void SpawnRoom(Transform spawnPoint, bool isSpawnRoom = false)

@@ -701,6 +701,7 @@ GameObject:
   - component: {fileID: 4594125740935332762}
   - component: {fileID: 8932110427250547053}
   - component: {fileID: 5030057923235586359}
+  - component: {fileID: 6284915571034567812}
   m_Layer: 0
   m_Name: Button
   m_TagString: ExitButton
@@ -818,6 +819,25 @@ MonoBehaviour:
   axaApasare: {x: 0, y: -1, z: 0}
   nextRoomSpawn: {fileID: 3012833754086401119}
   interactable: 1
+--- !u!114 &6284915571034567812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3809708379216165538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca2e3f35f0f4d54aaf5e90db57c0fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  successClip: {fileID: 8300000, guid: 2ef6490edb439464eb9da3377ad44499, type: 3}
+  buttonPressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  doorOpenClip: {fileID: 8300000, guid: a268e9b8a49cbb34982802ca354e473d, type: 3}
+  successVolume: 0.85
+  successStartTime: 0.2
+  buttonVolume: 0.8
+  doorVolume: 0.9
 --- !u!1 &4476529424620513263
 GameObject:
   m_ObjectHideFlags: 0
