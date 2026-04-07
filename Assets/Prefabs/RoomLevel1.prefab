@@ -2003,6 +2003,8 @@ MonoBehaviour:
     click pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
   interactKey: 101
+  openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  openVolume: 0.81
 --- !u!4 &792713303472148842 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 448042, guid: 82c3b8fcabff82d4787f83e992e386df, type: 3}

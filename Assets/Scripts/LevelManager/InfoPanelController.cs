@@ -11,10 +11,14 @@ public class InfoPanelController : MonoBehaviour
 
     [Header("Input")]
     public KeyCode closeKey = KeyCode.Escape;
+    [Min(0f)]
+    public float reopenDelay = 0.15f;
 
     private bool isOpen = false;
+    private float blockedUntilTime = 0f;
 
     public bool IsOpen => isOpen;
+    public bool CanOpenInfo => Time.unscaledTime >= blockedUntilTime;
 
     void Awake()
     {
@@ -45,6 +49,11 @@ public class InfoPanelController : MonoBehaviour
 
     public void ShowInfo(string infoText)
     {
+        if (!CanOpenInfo)
+        {
+            return;
+        }
+
         if (panelRoot == null)
         {
             Debug.LogWarning("InfoPanelController: panelRoot nu este setat.");
@@ -70,6 +79,7 @@ public class InfoPanelController : MonoBehaviour
         }
 
         isOpen = false;
+        blockedUntilTime = Time.unscaledTime + reopenDelay;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

@@ -1189,6 +1189,8 @@ MonoBehaviour:
     v\xE2rf.\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103 click pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
   interactKey: 101
+  openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  openVolume: 1
 --- !u!1001 &9198282367584227910
 PrefabInstance:
   m_ObjectHideFlags: 0

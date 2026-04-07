@@ -1502,6 +1502,8 @@ MonoBehaviour:
     \xEEnchide.</color></size>\r\n"
   interactDistance: 4
   interactKey: 101
+  openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  openVolume: 1
 --- !u!1001 &2128968860462968908
 PrefabInstance:
   m_ObjectHideFlags: 0

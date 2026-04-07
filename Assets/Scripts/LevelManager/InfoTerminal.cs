@@ -10,7 +10,13 @@ public class InfoTerminal : MonoBehaviour
     public float interactDistance = 4f;
     public KeyCode interactKey = KeyCode.E;
 
+    [Header("Audio")]
+    public AudioClip openClip;
+    [Range(0f, 1f)]
+    public float openVolume = 0.8f;
+
     private Camera playerCamera;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -19,11 +25,21 @@ public class InfoTerminal : MonoBehaviour
         {
             playerCamera = FindObjectOfType<Camera>();
         }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
     }
 
     void Update()
     {
-        if (InfoPanelController.instance != null && InfoPanelController.instance.IsOpen)
+        if (InfoPanelController.instance != null &&
+            (InfoPanelController.instance.IsOpen || !InfoPanelController.instance.CanOpenInfo))
         {
             return;
         }
@@ -48,6 +64,11 @@ public class InfoTerminal : MonoBehaviour
         {
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
+                if (openClip != null)
+                {
+                    audioSource.PlayOneShot(openClip, openVolume);
+                }
+
                 InfoPanelController.instance.ShowInfo(infoText);
             }
         }
