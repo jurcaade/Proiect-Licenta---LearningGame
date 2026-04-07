@@ -52,6 +52,7 @@ public class PlayerGrab : MonoBehaviour
                         {
                             if (!stackBase.IsTopCube(hit.transform.gameObject))
                             {
+                                stackBase.PlayErrorSound();
                                 if (warningText != null)
                                 {
                                     StartCoroutine(ShowWarningMessage("EROARE: Poți muta doar cubul din vârf! (LIFO)"));

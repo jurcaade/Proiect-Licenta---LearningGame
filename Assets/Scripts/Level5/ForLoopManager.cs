@@ -18,12 +18,18 @@ public class ForLoopManager : MonoBehaviour
 
     public ElevatorMovement lift;
 
+    [Header("Audio")]
+    public AudioClip errorClip;
+    [Range(0f, 1f)]
+    public float errorVolume = 0.9f;
+
     [Header("Resetare Obiecte")]
     private List<GameObject> pacheteInScena = new List<GameObject>();
     private List<Vector3> pozitiiInitiale = new List<Vector3>();
     private List<Quaternion> rotatiiInitiale = new List<Quaternion>();
 
     private InteractButton levelButton;
+    private AudioSource audioSource;
 
     public void SetupInteractButton(GameObject buttonObj)
     {
@@ -35,6 +41,15 @@ public class ForLoopManager : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
+
         GameObject[] pachete = GameObject.FindGameObjectsWithTag("DataPacket");
 
         foreach (GameObject p in pachete)
@@ -99,8 +114,17 @@ public class ForLoopManager : MonoBehaviour
         }
         else
         {
+            PlayErrorSound();
             string mesajEroare = (i < limitaBucla) ? "PREA PUȚINE PACHETE!" : "PREA MULTE PACHETE!";
             StartCoroutine(EroareSiReset(mesajEroare));
+        }
+    }
+
+    void PlayErrorSound()
+    {
+        if (errorClip != null)
+        {
+            audioSource.PlayOneShot(errorClip, errorVolume);
         }
     }
 

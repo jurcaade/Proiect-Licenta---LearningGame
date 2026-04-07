@@ -375,6 +375,8 @@ MonoBehaviour:
   decisionPoint: {fileID: 4601016512031234865}
   statusText: {fileID: 4286292254310432983}
   warningText: {fileID: 0}
+  wrongClip: {fileID: 8300000, guid: 09badfb8ce638a94b8b07974539817fb, type: 3}
+  wrongVolume: 0.8
 --- !u!1 &3246624514434362287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,6 +1470,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   esteButonTrue: 0
+  pressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  pressVolume: 1
 --- !u!1001 &4572955538220767958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1794,6 +1798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   esteButonTrue: 1
+  pressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  pressVolume: 1
 --- !u!1001 &9137486626635722353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1824,7 +1830,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 401080, guid: de147e9408aafd44da3a10d9b4fdc046, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.637
+      value: 7.44
       objectReference: {fileID: 0}
     - target: {fileID: 401080, guid: de147e9408aafd44da3a10d9b4fdc046, type: 3}
       propertyPath: m_LocalPosition.y

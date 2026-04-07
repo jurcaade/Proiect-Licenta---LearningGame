@@ -5,7 +5,13 @@ public class ExecuteButton : MonoBehaviour
     [Header("Referinta Manager")]
     public ForLoopManager manager; // Trage aici obiectul cu scriptul ForLoopManager
 
+    [Header("Audio")]
+    public AudioClip pressClip;
+    [Range(0f, 1f)]
+    public float pressVolume = 0.8f;
+
     private Camera jucatorCamera;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -21,6 +27,15 @@ public class ExecuteButton : MonoBehaviour
             // Încearcă să găsească managerul automat dacă ai uitat să-l tragi în slot
             manager = FindObjectOfType<ForLoopManager>();
         }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
     }
 
     void Update()
@@ -41,6 +56,11 @@ public class ExecuteButton : MonoBehaviour
                     {
                         if (manager != null)
                         {
+                            if (pressClip != null)
+                            {
+                                audioSource.PlayOneShot(pressClip, pressVolume);
+                            }
+
                             Debug.Log("Butonul EXECUTE a fost activat prin Raycast!");
                             manager.ApasaExecute();
                         }

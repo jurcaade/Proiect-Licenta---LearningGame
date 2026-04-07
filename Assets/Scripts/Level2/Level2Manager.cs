@@ -11,11 +11,28 @@ public class Level2Manager : MonoBehaviour
     [Header("Referinte Reactor")]
     public Renderer projectorRenderer; // Mesh-ul cu 4 materiale
 
+    [Header("Audio")]
+    public AudioClip successClip;
+    public AudioClip errorClip;
+    [Range(0f, 1f)] public float successVolume = 0.9f;
+    [Range(0f, 1f)] public float errorVolume = 0.8f;
+
     private InteractButton interactButton;
     private bool isSolved = false;
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
+        audioSource.dopplerLevel = 0f;
+
         DisableEmissionAtStart();
     }
 
@@ -44,11 +61,13 @@ public class Level2Manager : MonoBehaviour
         if ((A && B) || !C)
         {
             Debug.Log("✅ REACTOR ACTIVAT");
+            PlayClip(successClip, successVolume);
             ActivateSuccessEffects();
         }
         else
         {
             Debug.Log("❌ EROARE LOGICA");
+            PlayClip(errorClip, errorVolume);
             StartCoroutine(FlashErrorEffect());
         }
     }
@@ -140,5 +159,15 @@ public class Level2Manager : MonoBehaviour
         {
             projectorRenderer.transform.Rotate(Vector3.up * Time.deltaTime * 60f);
         }
+    }
+
+    void PlayClip(AudioClip clip, float volume)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 }

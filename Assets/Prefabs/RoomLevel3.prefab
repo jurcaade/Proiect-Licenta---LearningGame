@@ -78,6 +78,12 @@ MonoBehaviour:
   - Red
   - Green
   - Blue
+  placeClip: {fileID: 8300000, guid: 4532a79f84851a640808da3816de2702, type: 3}
+  errorClip: {fileID: 8300000, guid: 09badfb8ce638a94b8b07974539817fb, type: 3}
+  placeVolume: 1
+  errorVolume: 0.8
+  placeStartTime: 0
+  errorStartTime: 0
 --- !u!1 &4683213046682510828
 GameObject:
   m_ObjectHideFlags: 0

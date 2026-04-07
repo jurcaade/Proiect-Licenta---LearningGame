@@ -464,6 +464,8 @@ MonoBehaviour:
   bitValue: 0
   correctBit: 1
   bitText: {fileID: 8331459095156097684}
+  toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  toggleVolume: 1
 --- !u!1 &2395297661615708173
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,6 +852,8 @@ MonoBehaviour:
   bitValue: 0
   correctBit: 1
   bitText: {fileID: 8536918787030909170}
+  toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  toggleVolume: 1
 --- !u!1 &5111455855694136164
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,6 +976,8 @@ MonoBehaviour:
   bitValue: 0
   correctBit: 1
   bitText: {fileID: 7116421279962860417}
+  toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  toggleVolume: 1
 --- !u!1 &5273489522235708943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,6 +1738,8 @@ MonoBehaviour:
   bitValue: 0
   correctBit: 0
   bitText: {fileID: 3301088721613650080}
+  toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  toggleVolume: 1
 --- !u!1001 &4363162861752361306
 PrefabInstance:
   m_ObjectHideFlags: 0

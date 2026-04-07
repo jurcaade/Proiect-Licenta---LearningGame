@@ -459,6 +459,8 @@ MonoBehaviour:
   feedbackText: {fileID: 7653489616954119501}
   feedbackPanel: {fileID: 2175929302687770637}
   lift: {fileID: 4078916981431154567}
+  errorClip: {fileID: 8300000, guid: 09badfb8ce638a94b8b07974539817fb, type: 3}
+  errorVolume: 0.9
 --- !u!1 &2814885499622169297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 9133420118158315703}
+  pressClip: {fileID: 0}
+  pressVolume: 0.8
 --- !u!1 &6303526064473304173
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,6 +3743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 9133420118158315703}
+  pressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  pressVolume: 0.8
 --- !u!4 &5307272644049436847 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 460470, guid: d78f2ba16003e6e4681b4702d6dcb72e, type: 3}

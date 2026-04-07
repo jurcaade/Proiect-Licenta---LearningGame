@@ -15,14 +15,33 @@ public class StackBase : MonoBehaviour
     [Header("Logica Castig (Ordine Corecta: Jos -> Sus)")]
     public List<string> targetSequence = new List<string> { "Red", "Blue", "Red" };
 
+    [Header("Audio")]
+    public AudioClip placeClip;
+    public AudioClip errorClip;
+    [Range(0f, 1f)] public float placeVolume = 0.8f;
+    [Range(0f, 1f)] public float errorVolume = 0.8f;
+
     private List<GameObject> currentStack = new List<GameObject>();
     private List<string> currentColorStack = new List<string>();
 
     // Variabila care va ține referința la buton
     private InteractButton levelButton;
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;
+        audioSource.dopplerLevel = 0f;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 12f;
+
         // Punem cuburile initiale pe stiva automat la pornirea jocului
         foreach (GameObject cube in initialCubes)
         {
@@ -79,6 +98,7 @@ public class StackBase : MonoBehaviour
 
         currentStack.Add(cubeObj);
         currentColorStack.Add(cubeInfo.cubeColor);
+        PlayClip(placeClip, placeVolume);
 
         CheckWinCondition();
     }
@@ -87,6 +107,11 @@ public class StackBase : MonoBehaviour
     {
         if (currentStack.Count == 0) return false;
         return currentStack[currentStack.Count - 1] == cubeObj;
+    }
+
+    public void PlayErrorSound()
+    {
+        PlayClip(errorClip, errorVolume);
     }
 
     public void RemoveCubeFromStack(GameObject cubeObj)
@@ -132,6 +157,16 @@ public class StackBase : MonoBehaviour
             levelButton.SetInteractable(true);
         }
         LevelManager.instance.ShowLevelCompleteMessage();
+    }
+
+    void PlayClip(AudioClip clip, float volume)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 
 }

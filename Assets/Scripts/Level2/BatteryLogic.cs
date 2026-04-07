@@ -16,13 +16,30 @@ public class BatteryLogic : MonoBehaviour
     public Color offColor = Color.red;
     public float emissionIntensity = 3f;
 
+    [Header("Audio")]
+    public AudioClip toggleClip;
+    [Range(0f, 1f)] public float toggleVolume = 0.8f;
+    [Min(0f)] public float toggleStartTime = 0f;
+
     private Renderer rend;
     private Material[] mats;
+    private AudioSource audioSource;
 
     void Start()
     {
         rend = GetComponent<Renderer>();
         mats = rend.materials;
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;
+        audioSource.dopplerLevel = 0f;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 10f;
 
         UpdateVisuals();
     }
@@ -35,6 +52,7 @@ public class BatteryLogic : MonoBehaviour
     public void Interact()
     {
         bitValue = (bitValue == 0) ? 1 : 0;
+        PlayToggleSound();
         UpdateVisuals();
     }
 
@@ -67,5 +85,19 @@ public class BatteryLogic : MonoBehaviour
             screenText.text = bitValue.ToString();
             screenText.color = (bitValue == 1) ? Color.cyan : Color.red;
         }
+    }
+
+    void PlayToggleSound()
+    {
+        if (audioSource == null || toggleClip == null)
+        {
+            return;
+        }
+
+        audioSource.Stop();
+        audioSource.clip = toggleClip;
+        audioSource.volume = toggleVolume;
+        audioSource.time = Mathf.Clamp(toggleStartTime, 0f, toggleClip.length);
+        audioSource.Play();
     }
 }

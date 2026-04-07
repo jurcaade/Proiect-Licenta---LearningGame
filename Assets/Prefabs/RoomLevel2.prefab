@@ -1366,6 +1366,10 @@ MonoBehaviour:
   batteryB: {fileID: 8529560127219059545}
   batteryC: {fileID: 7563774099215791521}
   projectorRenderer: {fileID: 5772783733078408119}
+  successClip: {fileID: 0}
+  errorClip: {fileID: 8300000, guid: 09badfb8ce638a94b8b07974539817fb, type: 3}
+  successVolume: 0.9
+  errorVolume: 0.8
 --- !u!1 &8721342379233649594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,6 +1751,9 @@ MonoBehaviour:
   onColor: {r: 0, g: 1, b: 1, a: 1}
   offColor: {r: 1, g: 0, b: 0, a: 1}
   emissionIntensity: 3
+  toggleClip: {fileID: 8300000, guid: 3a7a01af4df121f4fba7fdd3aa507cb7, type: 3}
+  toggleVolume: 1
+  toggleStartTime: 0.3
 --- !u!1001 &2471487418636681803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1847,6 +1854,9 @@ MonoBehaviour:
   onColor: {r: 0, g: 1, b: 1, a: 1}
   offColor: {r: 1, g: 0, b: 0, a: 1}
   emissionIntensity: 3
+  toggleClip: {fileID: 8300000, guid: 3a7a01af4df121f4fba7fdd3aa507cb7, type: 3}
+  toggleVolume: 1
+  toggleStartTime: 0.3
 --- !u!1001 &5424414068807576332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1944,6 +1954,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 5951050177156295124}
+  pressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
+  pressVolume: 0.8
 --- !u!4 &5424414068807959128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 403796, guid: a8db70ed00a022d4ca7f82df02fbc4fb, type: 3}
@@ -2465,6 +2477,9 @@ MonoBehaviour:
   onColor: {r: 0, g: 1, b: 1, a: 1}
   offColor: {r: 1, g: 0, b: 0, a: 1}
   emissionIntensity: 3
+  toggleClip: {fileID: 8300000, guid: 3a7a01af4df121f4fba7fdd3aa507cb7, type: 3}
+  toggleVolume: 1
+  toggleStartTime: 0.3
 --- !u!4 &8031253822689413220 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 405580, guid: 77c6276b63956c9439d917f842b9eeb0, type: 3}

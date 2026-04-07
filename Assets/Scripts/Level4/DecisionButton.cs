@@ -6,12 +6,29 @@ public class DecisionButton : MonoBehaviour
     [Tooltip("BIFEAZĂ această căsuță pentru butonul TRUE. Las-o NEBIFATĂ pentru butonul FALSE.")]
     public bool esteButonTrue;
 
+    [Header("Audio")]
+    public AudioClip pressClip;
+    [Range(0f, 1f)] public float pressVolume = 0.8f;
+
     private SortingManager managerNivel;
     private Camera jucatorCamera; // Salvăm camera aici
+    private AudioSource audioSource;
 
     void Start()
     {
         managerNivel = FindObjectOfType<SortingManager>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;
+        audioSource.dopplerLevel = 0f;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 10f;
 
         // Căutăm camera automat, chiar dacă nu are tag-ul "MainCamera" pus
         jucatorCamera = Camera.main;
@@ -39,6 +56,8 @@ public class DecisionButton : MonoBehaviour
                     // Dacă a lovit chiar acest buton
                     if (hit.collider.gameObject == this.gameObject)
                     {
+                        PlayPressSound();
+
                         if (managerNivel != null)
                         {
                             if (esteButonTrue)
@@ -50,5 +69,18 @@ public class DecisionButton : MonoBehaviour
                 }
             }
         }
+    }
+
+    void PlayPressSound()
+    {
+        if (audioSource == null || pressClip == null)
+        {
+            return;
+        }
+
+        audioSource.Stop();
+        audioSource.clip = pressClip;
+        audioSource.volume = pressVolume;
+        audioSource.Play();
     }
 }
