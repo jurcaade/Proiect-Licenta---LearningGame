@@ -1,7 +1,7 @@
-using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; // Necesar pentru Restart
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,22 +21,16 @@ public class LevelManager : MonoBehaviour
     public TMP_Text levelCompleteText;
 
     [Header("UI Ecran Final (Sfarsit Joc)")]
-    public GameObject finalPanel;
+    public GameObject finalPanel; // Panoul cu Quit și Restart
 
     [Header("Audio Final Joc")]
     public AudioClip finalCompleteClip;
     [Range(0f, 1f)]
     public float finalCompleteVolume = 1f;
-    public AudioClip finalButtonClip;
-    [Range(0f, 1f)]
-    public float finalButtonVolume = 0.9f;
-    [Range(0f, 0.5f)]
-    public float finalButtonDelay = 0.12f;
 
     private int nivelCurent = 0;
     private GameObject roomCurenta;
     private AudioSource audioSource;
-    private bool finalActionInProgress = false;
 
     void Awake()
     {
@@ -55,25 +49,30 @@ public class LevelManager : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
 
-        if (finalPanel != null)
-        {
-            finalPanel.SetActive(false);
-        }
+        // Ne asigurăm că panoul final este închis la început
+        if (finalPanel != null) finalPanel.SetActive(false);
     }
 
+    // --- FUNCȚIA MODIFICATĂ ---
     public void ShowLevelCompleteMessage()
     {
         StopAllCoroutines();
 
-        string mesaj = "<b>NIVELUL " + nivelCurent + " COMPLETAT!</b>\n<size=50%><color=#00FFFF>Apasa butonul verde pentru a deschide usa.</size></color>";
+        // Așteptăm ca jucătorul să apese butonul fizic!
+        string mesaj;
+      
+            mesaj = "<b>NIVELUL " + nivelCurent + " COMPLETAT!</b>\n<size=50%><color=#00FFFF>Apasă butonul verde pentru a deschide ușa.</size></color>";
+
         StartCoroutine(WinScreenRoutine(mesaj));
     }
 
+    // --- Funcție nouă pentru a verifica dacă suntem la final ---
     public bool IsGameComplete()
     {
         return nivelCurent >= levelPrefabs.Length;
     }
 
+    // --- Făcută PUBLICĂ pentru a fi apelată de InteractButton ---
     public void ShowFinalGameScreen()
     {
         if (finalPanel != null)
@@ -81,18 +80,16 @@ public class LevelManager : MonoBehaviour
             finalPanel.SetActive(true);
             PlayFinalCompleteSound();
 
-            if (levelCompletePanel != null)
-            {
-                levelCompletePanel.SetActive(false);
-            }
+            // Dezactivăm panoul temporar dacă era activ
+            if (levelCompletePanel != null) levelCompletePanel.SetActive(false);
 
+            // Activăm cursorul pentru ca jucătorul să poată da click pe butoane
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            finalActionInProgress = false;
         }
         else
         {
-            Debug.LogError("Final Panel nu este asignat in Inspector!");
+            Debug.LogError("Final Panel nu este asignat în Inspector!");
         }
     }
 
@@ -101,14 +98,6 @@ public class LevelManager : MonoBehaviour
         if (audioSource != null && finalCompleteClip != null)
         {
             audioSource.PlayOneShot(finalCompleteClip, finalCompleteVolume);
-        }
-    }
-
-    private void PlayFinalButtonSound()
-    {
-        if (audioSource != null && finalButtonClip != null)
-        {
-            audioSource.PlayOneShot(finalButtonClip, finalButtonVolume);
         }
     }
 
@@ -123,51 +112,18 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // --- METODE PENTRU BUTOANELE DE PE FINAL PANEL ---
     public void RestartGame()
     {
-        if (finalActionInProgress)
-        {
-            return;
-        }
-
-        StartCoroutine(RestartAfterButtonSound());
+        // Reîncarcă scena curentă
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void QuitGame()
     {
-        if (finalActionInProgress)
-        {
-            return;
-        }
-
-        StartCoroutine(QuitAfterButtonSound());
-    }
-
-    private IEnumerator RestartAfterButtonSound()
-    {
-        finalActionInProgress = true;
-        PlayFinalButtonSound();
-
-        if (finalButtonClip != null)
-        {
-            yield return new WaitForSecondsRealtime(finalButtonDelay);
-        }
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private IEnumerator QuitAfterButtonSound()
-    {
-        finalActionInProgress = true;
-        PlayFinalButtonSound();
-
-        if (finalButtonClip != null)
-        {
-            yield return new WaitForSecondsRealtime(finalButtonDelay);
-        }
-
+        // Închide aplicația
         Application.Quit();
-        Debug.Log("Jocul s-a inchis.");
+        Debug.Log("Jocul s-a închis.");
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -187,27 +143,18 @@ public class LevelManager : MonoBehaviour
         Transform[] toateObiectele = roomCurenta.GetComponentsInChildren<Transform>(true);
         foreach (Transform t in toateObiectele)
         {
-            if (t.name == "BackWall")
-            {
-                Destroy(t.gameObject);
-            }
+            if (t.name == "BackWall") Destroy(t.gameObject);
         }
 
         InteractButton interactBtnComp = roomCurenta.GetComponentInChildren<InteractButton>(true);
 
         if (isSpawnRoom)
         {
-            if (interactBtnComp != null)
-            {
-                interactBtnComp.SetInteractable(false);
-            }
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
         }
         else
         {
-            if (interactBtnComp != null)
-            {
-                interactBtnComp.SetInteractable(false);
-            }
+            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
 
             GameObject nivelPrefab = levelPrefabs[nivelCurent];
             if (nivelPrefab != null)
@@ -229,7 +176,7 @@ public class LevelManager : MonoBehaviour
                 if (sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
 
                 ForLoopManager lm = nivelObiecte.GetComponentInChildren<ForLoopManager>(true);
-                if (lm != null && interactBtnComp != null) lm.SetupInteractButton(interactBtnComp.gameObject);
+                if ((lm != null) && interactBtnComp != null) lm.SetupInteractButton(interactBtnComp.gameObject);
             }
 
             nivelCurent++;
@@ -256,13 +203,14 @@ public class LevelManager : MonoBehaviour
         {
             string descriere = "";
 
+            // Folosim switch pentru a alege descrierea în funcție de nivel
             switch (nivelCurent)
             {
                 case 1:
                     descriere = "Conversie Binar - Zecimal";
                     break;
                 case 2:
-                    descriere = "Circuite si Logica";
+                    descriere = "Circuite și Logică";
                     break;
                 case 3:
                     descriere = "Structuri de Date (Stiva)";
@@ -274,10 +222,10 @@ public class LevelManager : MonoBehaviour
                     descriere = "Structuri Repetitive (FOR)";
                     break;
                 default:
-                    descriere = "Testare in curs...";
                     break;
             }
 
+            // Formatăm textul: Titlu mare și Subtitlu mic colorat gri
             textComp.text = $"LEVEL <color=#00FFFF>{nivelCurent}</color>\n" +
                             $"<size=50%><color=#A0A0A0>{descriere}</color></size>";
         }

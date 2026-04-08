@@ -1,24 +1,28 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ElevatorMovement : MonoBehaviour
 {
-    [Header("Setari Lift")]
-    [Tooltip("Cati metri sa urce liftul fata de pozitia initiala?")]
-    public float inaltimeDeUrcare = 4f; // Modifica de aici cat de sus vrei sa mearga
+    [Header("Setări Lift")]
+    [Tooltip("Câți metri să urce liftul față de poziția inițială?")]
+    public float inaltimeDeUrcare = 4f;
     public float viteza = 2f;
+
+    [Header("Setări Siguranță (Anti-Strivire)")]
+    [Tooltip("Cât de lungă să fie raza care verifică dacă ești sub lift? Ajustează în funcție de grosimea podelei liftului.")]
+    public float distantaSiguranta = 1.5f;
 
     private Vector3 pozitieJos;
     private Vector3 pozitieSus;
 
     private bool seMisca = false;
-    private bool mergeSpreSus = true; // tine minte directia: urca sau coboara
+    private bool mergeSpreSus = true;
 
     void Start()
     {
-        // 1. Salvam automat pozitia in care ai pus liftul in scena (pe post de Parter)
+        // Salvăm automat poziția în care ai pus liftul în scenă
         pozitieJos = transform.localPosition;
 
-        // 2. Calculam automat etajul, adunand inaltimea dorita la axa Y
+        // Calculăm automat etajul
         pozitieSus = pozitieJos + new Vector3(0, inaltimeDeUrcare, 0);
     }
 
@@ -26,16 +30,43 @@ public class ElevatorMovement : MonoBehaviour
     {
         if (seMisca)
         {
-            // Stabilim tinta: Sus sau Jos
+            // --- SISTEMUL DE SIGURANȚĂ ---
+            // Verificăm DOAR dacă liftul coboară (nu vrem să se oprească aiurea când urcă)
+            if (!mergeSpreSus)
+            {
+                // Desenăm o linie roșie în fereastra Scene ca să vezi raza (te ajută să o ajustezi)
+                Debug.DrawRay(transform.position, Vector3.down * distantaSiguranta, Color.red);
+
+                // Tragem raza în jos
+                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distantaSiguranta))
+                {
+                    // Dacă raza lovește un obiect care are eticheta "Player"
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        Debug.LogWarning("Jucător detectat sub lift! Se oprește pentru a evita strivirea.");
+
+                        // Oprim liftul
+                        seMisca = false;
+
+                        // OPȚIONAL: Dacă în loc să îl oprești vrei să îl trimiți înapoi sus, șterge linia de mai sus și decomentează-o pe cea de mai jos:
+                        // mergeSpreSus = true; 
+
+                        return; // Oprim execuția aici ca liftul să nu mai coboare în acest cadru
+                    }
+                }
+            }
+            // -----------------------------
+
+            // Stabilim ținta: Sus sau Jos
             Vector3 tinta = mergeSpreSus ? pozitieSus : pozitieJos;
 
-            // Folosim localPosition in loc de position! (Evita problemele de rotatie ale hartii)
+            // Mișcăm liftul
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, tinta, viteza * Time.deltaTime);
 
-            // Daca a ajuns exact la tinta, schimbam directia pentru a face ping-pong
+            // Dacă a ajuns exact la țintă, schimbăm direcția
             if (Vector3.Distance(transform.localPosition, tinta) < 0.01f)
             {
-                mergeSpreSus = !mergeSpreSus; // Inversam
+                mergeSpreSus = !mergeSpreSus;
             }
         }
     }
