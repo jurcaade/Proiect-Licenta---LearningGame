@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DeskButton : MonoBehaviour
+public class ReactorButton : MonoBehaviour
 {
     // Aici tragem obiectul Empty care are scriptul Level2Manager
     public Level2Manager levelManager;
@@ -54,12 +54,12 @@ public class DeskButton : MonoBehaviour
 
         if (levelManager != null)
         {
-            Debug.Log("Buton birou apăsat! Verificăm soluția...");
+            Debug.Log("Buton reactor apăsat! Verificăm soluția...");
             levelManager.CheckSolution();
         }
         else
         {
-            Debug.LogError("Referința Level2Manager lipsește de pe butonul de pe birou!");
+            Debug.LogError("Referința Level2Manager lipsește de pe butonul reactorului!");
         }
     }
 

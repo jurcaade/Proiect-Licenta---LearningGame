@@ -34,7 +34,6 @@ Transform:
   - {fileID: 4572955538220556692}
   - {fileID: 8172424302301966985}
   - {fileID: 2128968860463028232}
-  - {fileID: 7222093564078034030}
   - {fileID: 8850117213739503029}
   - {fileID: 4360688820012237059}
   - {fileID: 9137486626636116169}
@@ -56,7 +55,7 @@ GameObject:
   - component: {fileID: 4784340969095549931}
   - component: {fileID: 6274948645180088209}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ObjectiveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,7 +233,7 @@ GameObject:
   - component: {fileID: 5168586131378527810}
   - component: {fileID: 5531235554494266749}
   m_Layer: 0
-  m_Name: CubeFalse
+  m_Name: FalseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,7 +374,6 @@ MonoBehaviour:
   spawnPoint: {fileID: 1575350942085968048}
   decisionPoint: {fileID: 4601016512031234865}
   statusText: {fileID: 4286292254310432983}
-  warningText: {fileID: 0}
   wrongClip: {fileID: 8300000, guid: 09badfb8ce638a94b8b07974539817fb, type: 3}
   wrongVolume: 0.8
 --- !u!1 &3246624514434362287
@@ -421,7 +419,7 @@ GameObject:
   - component: {fileID: 6023737059292790860}
   - component: {fileID: 7482072229859773017}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: LogicRuleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,7 +624,7 @@ GameObject:
   - component: {fileID: 400783094809180545}
   - component: {fileID: 5582993732243330014}
   m_Layer: 0
-  m_Name: TrueText
+  m_Name: FalseLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,7 +795,7 @@ GameObject:
   - component: {fileID: 1739556590359084452}
   - component: {fileID: 2901344181977650976}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: GuidePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -970,7 +968,7 @@ GameObject:
   - component: {fileID: 2256643083888738426}
   - component: {fileID: 753858864685372747}
   m_Layer: 0
-  m_Name: CubeTrue
+  m_Name: TrueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1075,7 +1073,7 @@ GameObject:
   - component: {fileID: 4342452920109329439}
   - component: {fileID: 5610150615941810700}
   m_Layer: 0
-  m_Name: TrueText
+  m_Name: TrueLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1514,7 +1512,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 190598, guid: c944460b7f1a8ef47b05ebec140bdd17, type: 3}
       propertyPath: m_Name
-      value: storage_container_big
+      value: SortingBelt
       objectReference: {fileID: 0}
     - target: {fileID: 469060, guid: c944460b7f1a8ef47b05ebec140bdd17, type: 3}
       propertyPath: m_LocalScale.x
@@ -1566,7 +1564,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 469060, guid: c944460b7f1a8ef47b05ebec140bdd17, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7222093564078034030}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c944460b7f1a8ef47b05ebec140bdd17, type: 3}
 --- !u!4 &2128968860463028232 stripped
@@ -1754,7 +1755,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152624, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_Name
-      value: big_screen
+      value: CodeScreen
       objectReference: {fileID: 0}
     - target: {fileID: 490306, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_LocalScale.x
@@ -1827,39 +1828,39 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8031817661306300581}
+    m_TransformParent: {fileID: 2128968860463028232}
     m_Modifications:
     - target: {fileID: 130254, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_Name
-      value: generator
+      value: SortingBeltPart
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.49999988
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1.3124353
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.95328856
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.7
+      value: -0.1506192
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.128
+      value: 0.29398552
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.021
+      value: 1.6100001
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1867,7 +1868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 413772, guid: 562f0bb8ba91fe844baf976e5806516d, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1905,7 +1906,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152624, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_Name
-      value: big_screen (1)
+      value: ObjectiveScreen
       objectReference: {fileID: 0}
     - target: {fileID: 490306, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_LocalScale.x

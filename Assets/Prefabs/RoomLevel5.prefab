@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1544929816119966189}
   - component: {fileID: 5272700664787053678}
   m_Layer: 0
-  m_Name: InvisibleWall (1)
+  m_Name: FrontSafetyWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 142126265497458975}
   - component: {fileID: 4688637852348263987}
   m_Layer: 7
-  m_Name: InvisibleWall
+  m_Name: RearSafetyWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 8805471481949430088}
   - component: {fileID: 9133420118158315703}
   m_Layer: 0
-  m_Name: Sensor
+  m_Name: PacketSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -471,7 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2674812370820291086}
   m_Layer: 0
-  m_Name: Container
+  m_Name: PacketContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,6 +494,7 @@ Transform:
   - {fileID: 3440144128227453898}
   - {fileID: 3112878545827011279}
   - {fileID: 4172081111219813391}
+  - {fileID: 5416452496049548519}
   - {fileID: 1084066801512939704}
   - {fileID: 6597759591619653664}
   - {fileID: 3421787601118479692}
@@ -512,7 +513,7 @@ GameObject:
   - component: {fileID: 126830173414401120}
   - component: {fileID: 323720589936795840}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: CounterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -621,7 +622,7 @@ GameObject:
   - component: {fileID: 5107583051404057842}
   - component: {fileID: 7278453620929267006}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ObjectiveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +799,7 @@ GameObject:
   - component: {fileID: 8647505511648092640}
   - component: {fileID: 8995443771409018021}
   m_Layer: 0
-  m_Name: TrueText
+  m_Name: ExecuteLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1226,7 +1227,7 @@ GameObject:
   - component: {fileID: 5500565549778229594}
   - component: {fileID: 5993897116358418803}
   m_Layer: 0
-  m_Name: decorative_half_wall_3_LOD0 (1)
+  m_Name: HalfWallDecoration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1310,7 +1311,7 @@ GameObject:
   - component: {fileID: 3952109559372076386}
   - component: {fileID: 8843318522322562322}
   m_Layer: 0
-  m_Name: InvisibleWall (2)
+  m_Name: RightSafetyWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1414,7 +1415,7 @@ GameObject:
   - component: {fileID: 5520782005036145706}
   - component: {fileID: 1900108934767799764}
   m_Layer: 0
-  m_Name: textCode
+  m_Name: LoopCodeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1586,7 +1587,7 @@ GameObject:
   - component: {fileID: 8169243647626944547}
   - component: {fileID: 5022325885809821518}
   m_Layer: 0
-  m_Name: ICounter
+  m_Name: CounterDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1762,7 +1763,7 @@ GameObject:
   - component: {fileID: 198369678562660128}
   - component: {fileID: 942011532278519357}
   m_Layer: 0
-  m_Name: InvisibleWall (3)
+  m_Name: LeftSafetyWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1864,7 +1865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1084066801512939704}
   m_Layer: 0
-  m_Name: ContainerPosts
+  m_Name: ContainerPostGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1889,7 +1890,6 @@ Transform:
   - {fileID: 8696539332624092913}
   - {fileID: 4324291678664249074}
   - {fileID: 3925059193354874956}
-  - {fileID: 5416452496049548519}
   - {fileID: 5558978539626700665}
   - {fileID: 149014820305496327}
   m_Father: {fileID: 2674812370820291086}
@@ -1906,7 +1906,7 @@ GameObject:
   - component: {fileID: 6875053786634005024}
   - component: {fileID: 2297054099427936148}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: GuidePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2076,7 +2076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 909130649409964943}
   m_Layer: 0
-  m_Name: Cubes
+  m_Name: DataPacketGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2164,7 +2164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8119182756935079537}
   m_Layer: 0
-  m_Name: InvisibleWalls
+  m_Name: SafetyWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3019,7 +3019,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152624, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_Name
-      value: big_screen (1)
+      value: ObjectiveScreen
       objectReference: {fileID: 0}
     - target: {fileID: 490306, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_LocalScale.x
@@ -4096,7 +4096,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 188452, guid: d78f2ba16003e6e4681b4702d6dcb72e, type: 3}
       propertyPath: m_Name
-      value: console
+      value: ExecuteConsole
       objectReference: {fileID: 0}
     - target: {fileID: 460470, guid: d78f2ba16003e6e4681b4702d6dcb72e, type: 3}
       propertyPath: m_LocalScale.x
@@ -4192,7 +4192,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1084066801512939704}
+    m_TransformParent: {fileID: 2674812370820291086}
     m_Modifications:
     - target: {fileID: 197360, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_Name
@@ -4208,15 +4208,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 469248, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.39799976
+      value: 5.468
       objectReference: {fileID: 0}
     - target: {fileID: 469248, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0005745888
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 469248, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.7999992
+      value: -11.07
       objectReference: {fileID: 0}
     - target: {fileID: 469248, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4578,7 +4578,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 197360, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_Name
-      value: ContainerFloor
+      value: ContainerPart
       objectReference: {fileID: 0}
     - target: {fileID: 469248, guid: 3845c7234a0ed4843ba4e38e2404f54d, type: 3}
       propertyPath: m_LocalScale.z

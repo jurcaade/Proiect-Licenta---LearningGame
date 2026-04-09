@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class SortingManager : MonoBehaviour
 {
@@ -9,9 +8,6 @@ public class SortingManager : MonoBehaviour
     public Transform spawnPoint;    // Punctul de unde pornește sfera
     public Transform decisionPoint; // Punctul unde se oprește sfera
     public TextMeshPro statusText;  // Textul de pe monitor (Scor: 0/4)
-
-    [Header("UI Feedback")]
-    public TMP_Text warningText;
 
     [Header("Audio")]
     public AudioClip wrongClip;
@@ -128,9 +124,10 @@ public class SortingManager : MonoBehaviour
 
         Debug.Log("[TEST] Managerul a primit comanda! isMoving este: " + isMoving);
 
-        if (isMoving || currentSphere == null)
+        if (currentSphere == null)
         {
-            Debug.LogWarning("[TEST] Click ignorat! Sfera încă se mișcă sau nu există.");
+            Debug.LogWarning("[TEST] Nu exista nicio sfera activa.");
+            return;
         }
 
         // Condiția jocului ACUM: Dacă e Albastru SAU Roz, răspunsul corect e TRUE. (Mov și Galben sunt FALSE).

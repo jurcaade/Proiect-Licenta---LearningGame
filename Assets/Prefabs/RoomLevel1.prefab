@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3965659703494734146}
   - component: {fileID: 7116421279962860417}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: BitCube1ValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 4878374423153909714}
   - component: {fileID: 8331459095156097684}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: BitCube0ValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 2494817225653478434}
   - component: {fileID: 8648565773897247046}
   m_Layer: 0
-  m_Name: B0
+  m_Name: BitCube0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 4587685818958246475}
   - component: {fileID: 3301088721613650080}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: BitCube2ValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -744,7 +744,7 @@ GameObject:
   - component: {fileID: 9208047964520566602}
   - component: {fileID: 8021360374010907033}
   m_Layer: 0
-  m_Name: B3
+  m_Name: BitCube3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -868,7 +868,7 @@ GameObject:
   - component: {fileID: 8650083916083640428}
   - component: {fileID: 1092009761519634652}
   m_Layer: 0
-  m_Name: B1
+  m_Name: BitCube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: 8763951884409849918}
   - component: {fileID: 7241698645544513038}
   m_Layer: 0
-  m_Name: DecimalText3D
+  m_Name: DecimalValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1178,7 +1178,7 @@ GameObject:
   - component: {fileID: 8737611543848473410}
   - component: {fileID: 1270636482170690872}
   m_Layer: 0
-  m_Name: Ecran_Rezultat
+  m_Name: ResultScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1285,7 +1285,7 @@ GameObject:
   - component: {fileID: 1816953593581511375}
   - component: {fileID: 6487882938651021681}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: GuidePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 3834035831679807607}
   - component: {fileID: 8536918787030909170}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: BitCube3ValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1628,7 +1628,7 @@ GameObject:
   - component: {fileID: 4113600177651244420}
   - component: {fileID: 1454201721975670816}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ObjectiveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1802,7 +1802,7 @@ GameObject:
   - component: {fileID: 8961760174878653005}
   - component: {fileID: 1483560182470187657}
   m_Layer: 0
-  m_Name: B2
+  m_Name: BitCube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2296,7 +2296,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152624, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_Name
-      value: big_screen
+      value: ObjectiveScreen
       objectReference: {fileID: 0}
     - target: {fileID: 490306, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_LocalScale.x

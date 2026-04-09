@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using TMPro; // Necesar pentru textul de pe ecran
-using System.Collections; // Necesar pentru temporizator
+using System.Collections;
+using TMPro;
+using UnityEngine;
 
 public class PlayerGrab : MonoBehaviour
 {
@@ -8,11 +8,11 @@ public class PlayerGrab : MonoBehaviour
     public Transform holdPosition;
     public float grabRange = 3f;
     public string grabbableTag = "StackCube";
-    public string level5Tag = "DataPacket"; // Noul tag pentru nivelul 5
+    public string level5Tag = "DataPacket";
 
     [Header("UI Feedback")]
     public GameObject warningPanel;
-    public TMP_Text warningText; // Slot-ul unde vei trage textul din Canvas
+    public TMP_Text warningText;
 
     private GameObject heldObject;
     private Rigidbody heldObjRb;
@@ -35,52 +35,47 @@ public class PlayerGrab : MonoBehaviour
 
     void TryGrab()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
+        if (!Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, grabRange))
+            return;
+
+        if (!hit.transform.CompareTag(grabbableTag) && !hit.transform.CompareTag(level5Tag))
+            return;
+
+        if (hit.transform.CompareTag(grabbableTag))
         {
-            // VERIFICARE: Acceptă ori StackCube, ori DataPacket
-            if (hit.transform.CompareTag(grabbableTag) || hit.transform.CompareTag(level5Tag))
+            StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
+            if (cubeInfo != null && cubeInfo.isStacked)
             {
-                // Logica de stivă se aplică DOAR dacă obiectul este un StackCube
-                if (hit.transform.CompareTag(grabbableTag))
+                StackBase stackBase = FindObjectOfType<StackBase>();
+                if (stackBase != null)
                 {
-                    StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
-                    if (cubeInfo != null && cubeInfo.isStacked)
+                    if (!stackBase.IsTopCube(hit.transform.gameObject))
                     {
-                        StackBase stackBase = FindObjectOfType<StackBase>();
-                        if (stackBase != null)
-                        {
-                            if (!stackBase.IsTopCube(hit.transform.gameObject))
-                            {
-                                stackBase.PlayErrorSound();
-                                if (warningText != null)
-                                {
-                                    StartCoroutine(ShowWarningMessage("EROARE: Poți muta doar cubul din vârf! (LIFO)"));
-                                }
-                                return;
-                            }
-                            else
-                            {
-                                stackBase.RemoveCubeFromStack(hit.transform.gameObject);
-                            }
-                        }
+                        stackBase.PlayErrorSound();
+                        if (warningText != null)
+                            StartCoroutine(ShowWarningMessage("EROARE: Poti muta doar cubul din varf! (LIFO)"));
+
+                        return;
                     }
-                }
 
-                // PRINDEREA PROPRIU-ZISĂ (valabilă pentru ambele tipuri)
-                heldObject = hit.transform.gameObject;
-                heldObjRb = heldObject.GetComponent<Rigidbody>();
-                heldObjCollider = heldObject.GetComponent<Collider>();
-
-                if (heldObjRb != null)
-                {
-                    heldObjRb.isKinematic = true;
-                    if (heldObjCollider != null) heldObjCollider.enabled = false;
-
-                    heldObject.transform.position = holdPosition.position;
-                    heldObject.transform.SetParent(holdPosition);
+                    stackBase.RemoveCubeFromStack(hit.transform.gameObject);
                 }
             }
+        }
+
+        heldObject = hit.transform.gameObject;
+        heldObjRb = heldObject.GetComponent<Rigidbody>();
+        heldObjCollider = heldObject.GetComponent<Collider>();
+
+        if (heldObjRb != null)
+        {
+            heldObjRb.isKinematic = true;
+
+            if (heldObjCollider != null)
+                heldObjCollider.enabled = false;
+
+            heldObject.transform.position = holdPosition.position;
+            heldObject.transform.SetParent(holdPosition);
         }
     }
 
@@ -94,17 +89,12 @@ public class PlayerGrab : MonoBehaviour
             float distanceToCube = dirToCube.magnitude;
             RaycastHit hit;
 
-            // NOU: Creăm o mască ce ignoră layer-ul "InvisibleWall"
             int wallLayer = LayerMask.NameToLayer("InvisibleWall");
-            int layerMask = ~0; // ~0 înseamnă că lovește absolut tot
+            int layerMask = ~0;
 
             if (wallLayer != -1)
-            {
-                // Scoatem layer-ul peretelui din mască
                 layerMask = ~(1 << wallLayer);
-            }
 
-            // Aplicăm masca în Raycast
             if (Physics.Raycast(transform.position, dirToCube.normalized, out hit, distanceToCube, layerMask))
             {
                 heldObject.transform.position = hit.point - (dirToCube.normalized * 0.25f);
@@ -122,11 +112,14 @@ public class PlayerGrab : MonoBehaviour
 
     IEnumerator ShowWarningMessage(string message)
     {
-        warningPanel.SetActive(true);   // arată panel-ul
+        if (warningPanel == null || warningText == null)
+            yield break;
+
+        warningPanel.SetActive(true);
         warningText.text = message;
 
         yield return new WaitForSeconds(2f);
 
-        warningPanel.SetActive(false);  // ascunde panel-ul
+        warningPanel.SetActive(false);
     }
 }

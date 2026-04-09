@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7808776086208172877}
   - component: {fileID: 8238873953143917025}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: GuidePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1560893617735898992}
   m_Layer: 0
-  m_Name: C
+  m_Name: BatteryC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 269683274398559579}
   - component: {fileID: 279894121402886089}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ReactorPromptText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 5418372189864912220}
   - component: {fileID: 1033962406165142770}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: BatteryCValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,7 +562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6745645923342053700}
   m_Layer: 0
-  m_Name: A
+  m_Name: BatteryA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,7 +602,7 @@ GameObject:
   - component: {fileID: 17544853614974865}
   - component: {fileID: 2899996978092397978}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: BatteryAValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -773,7 +773,7 @@ GameObject:
   - component: {fileID: 4174282690389365531}
   - component: {fileID: 4120344246689083987}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: BatteryBValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -944,7 +944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5487967841347580337}
   m_Layer: 0
-  m_Name: B
+  m_Name: BatteryB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 6573920649150149323}
   - component: {fileID: 2935495120260789070}
   m_Layer: 0
-  m_Name: TextA
+  m_Name: BatteryALabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1157,7 +1157,7 @@ GameObject:
   - component: {fileID: 457007734345613750}
   - component: {fileID: 139890096216379052}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ObjectiveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 9154157937506699453}
   - component: {fileID: 767799684352501432}
   m_Layer: 0
-  m_Name: TextB
+  m_Name: BatteryBLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1571,9 +1571,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4445988044063509983}
   - {fileID: 3831661473714528789}
   - {fileID: 422131437582870949}
-  - {fileID: 4445988044063509983}
   - {fileID: 1560893617735898992}
   - {fileID: 5487967841347580337}
   - {fileID: 6745645923342053700}
@@ -1595,7 +1595,7 @@ GameObject:
   - component: {fileID: 7531357509377925332}
   - component: {fileID: 2265954977691104760}
   m_Layer: 0
-  m_Name: TextC
+  m_Name: BatteryCLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2227,6 +2227,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 5951050177156295124}
+  pressDistance: 0.04
+  pressSpeed: 12
+  pressAxis: {x: 0, y: -1, z: 0}
   pressClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   pressVolume: 0.8
 --- !u!4 &5424414068807959128 stripped
@@ -2244,7 +2247,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152624, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_Name
-      value: big_screen
+      value: ObjectiveScreen
       objectReference: {fileID: 0}
     - target: {fileID: 490306, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
       propertyPath: m_LocalScale.x
@@ -2386,7 +2389,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 111612, guid: b09ac1c0cceeaae479323b022bfe74b1, type: 3}
       propertyPath: m_Name
-      value: projector_2
+      value: Reactor
       objectReference: {fileID: 0}
     - target: {fileID: 442254, guid: b09ac1c0cceeaae479323b022bfe74b1, type: 3}
       propertyPath: m_LocalScale.x
