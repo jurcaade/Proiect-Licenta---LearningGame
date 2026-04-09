@@ -1,74 +1,44 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class ElevatorMovement : MonoBehaviour
 {
-    [Header("Setări Lift")]
-    [Tooltip("Câți metri să urce liftul față de poziția inițială?")]
+    [Header("Setari Lift")]
     public float inaltimeDeUrcare = 4f;
     public float viteza = 2f;
 
-    [Header("Setări Siguranță (Anti-Strivire)")]
-    [Tooltip("Cât de lungă să fie raza care verifică dacă ești sub lift? Ajustează în funcție de grosimea podelei liftului.")]
+    [Header("Setari Siguranta")]
     public float distantaSiguranta = 1.5f;
+    public Vector3 marimeVerificare = new Vector3(1.5f, 0.75f, 1.5f);
 
     private Vector3 pozitieJos;
     private Vector3 pozitieSus;
-
     private bool seMisca = false;
     private bool mergeSpreSus = true;
+    private Collider[] liftColliders;
 
     void Start()
     {
-        // Salvăm automat poziția în care ai pus liftul în scenă
         pozitieJos = transform.localPosition;
-
-        // Calculăm automat etajul
         pozitieSus = pozitieJos + new Vector3(0, inaltimeDeUrcare, 0);
+        liftColliders = GetComponentsInChildren<Collider>();
     }
 
     void Update()
     {
-        if (seMisca)
+        if (!seMisca)
+            return;
+
+        if (!mergeSpreSus && EsteJucatorSubLift())
         {
-            // --- SISTEMUL DE SIGURANȚĂ ---
-            // Verificăm DOAR dacă liftul coboară (nu vrem să se oprească aiurea când urcă)
-            if (!mergeSpreSus)
-            {
-                // Desenăm o linie roșie în fereastra Scene ca să vezi raza (te ajută să o ajustezi)
-                Debug.DrawRay(transform.position, Vector3.down * distantaSiguranta, Color.red);
-
-                // Tragem raza în jos
-                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distantaSiguranta))
-                {
-                    // Dacă raza lovește un obiect care are eticheta "Player"
-                    if (hit.collider.CompareTag("Player"))
-                    {
-                        Debug.LogWarning("Jucător detectat sub lift! Se oprește pentru a evita strivirea.");
-
-                        // Oprim liftul
-                        seMisca = false;
-
-                        // OPȚIONAL: Dacă în loc să îl oprești vrei să îl trimiți înapoi sus, șterge linia de mai sus și decomentează-o pe cea de mai jos:
-                        // mergeSpreSus = true; 
-
-                        return; // Oprim execuția aici ca liftul să nu mai coboare în acest cadru
-                    }
-                }
-            }
-            // -----------------------------
-
-            // Stabilim ținta: Sus sau Jos
-            Vector3 tinta = mergeSpreSus ? pozitieSus : pozitieJos;
-
-            // Mișcăm liftul
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, tinta, viteza * Time.deltaTime);
-
-            // Dacă a ajuns exact la țintă, schimbăm direcția
-            if (Vector3.Distance(transform.localPosition, tinta) < 0.01f)
-            {
-                mergeSpreSus = !mergeSpreSus;
-            }
+            mergeSpreSus = true;
+            return;
         }
+
+        Vector3 tinta = mergeSpreSus ? pozitieSus : pozitieJos;
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, tinta, viteza * Time.deltaTime);
+
+        if (Vector3.Distance(transform.localPosition, tinta) < 0.01f)
+            mergeSpreSus = !mergeSpreSus;
     }
 
     public void PornesteLiftul()
@@ -79,5 +49,56 @@ public class ElevatorMovement : MonoBehaviour
     public void OpresteLiftul()
     {
         seMisca = false;
+    }
+
+    bool EsteJucatorSubLift()
+    {
+        if (!TryGetLiftBounds(out Bounds bounds))
+            return false;
+
+        Vector3 halfExtents = new Vector3(
+            Mathf.Max(marimeVerificare.x * 0.5f, bounds.extents.x),
+            marimeVerificare.y * 0.5f,
+            Mathf.Max(marimeVerificare.z * 0.5f, bounds.extents.z)
+        );
+
+        Vector3 centru = bounds.center - new Vector3(0, bounds.extents.y + distantaSiguranta * 0.5f, 0);
+        Collider[] hituri = Physics.OverlapBox(centru, halfExtents);
+
+        foreach (Collider hit in hituri)
+        {
+            if (hit.CompareTag("Player"))
+                return true;
+        }
+
+        return false;
+    }
+
+    bool TryGetLiftBounds(out Bounds bounds)
+    {
+        bounds = default;
+
+        if (liftColliders == null || liftColliders.Length == 0)
+            liftColliders = GetComponentsInChildren<Collider>();
+
+        bool gasit = false;
+
+        foreach (Collider col in liftColliders)
+        {
+            if (col == null || !col.enabled || col.isTrigger)
+                continue;
+
+            if (!gasit)
+            {
+                bounds = col.bounds;
+                gasit = true;
+            }
+            else
+            {
+                bounds.Encapsulate(col.bounds);
+            }
+        }
+
+        return gasit;
     }
 }
