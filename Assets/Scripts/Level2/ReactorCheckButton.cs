@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class ReactorButton : MonoBehaviour
+public class ReactorCheckButton : MonoBehaviour
 {
-    // Aici tragem obiectul Empty care are scriptul Level2Manager
-    public Level2Manager levelManager;
+    public ReactorPuzzleManager levelManager;
 
     [Header("Animatie")]
     public float pressDistance = 0.04f;
@@ -18,7 +17,7 @@ public class ReactorButton : MonoBehaviour
     private Vector3 initialLocalPosition;
     private Vector3 targetLocalPosition;
 
-    void Start()
+    private void Start()
     {
         initialLocalPosition = transform.localPosition;
         targetLocalPosition = initialLocalPosition;
@@ -36,7 +35,7 @@ public class ReactorButton : MonoBehaviour
         audioSource.maxDistance = 10f;
     }
 
-    void Update()
+    private void Update()
     {
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetLocalPosition, Time.deltaTime * pressSpeed);
 
@@ -46,24 +45,22 @@ public class ReactorButton : MonoBehaviour
         }
     }
 
-    // Detectează click-ul pe buton
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         targetLocalPosition = initialLocalPosition + (pressAxis.normalized * pressDistance);
         PlayPressSound();
 
         if (levelManager != null)
         {
-            Debug.Log("Buton reactor apăsat! Verificăm soluția...");
             levelManager.CheckSolution();
         }
         else
         {
-            Debug.LogError("Referința Level2Manager lipsește de pe butonul reactorului!");
+            Debug.LogError("Lipseste referinta catre ReactorPuzzleManager.");
         }
     }
 
-    void PlayPressSound()
+    private void PlayPressSound()
     {
         if (audioSource == null || pressClip == null)
         {

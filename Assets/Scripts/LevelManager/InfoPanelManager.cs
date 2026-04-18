@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-public class InfoPanelController : MonoBehaviour
+public class InfoPanelManager : MonoBehaviour
 {
-    public static InfoPanelController instance;
+    public static InfoPanelManager instance;
 
     [Header("UI")]
     public GameObject panelRoot;
@@ -14,19 +14,19 @@ public class InfoPanelController : MonoBehaviour
     [Min(0f)]
     public float reopenDelay = 0.15f;
 
-    private bool isOpen = false;
-    private float blockedUntilTime = 0f;
+    private bool isOpen;
+    private float blockedUntilTime;
 
     public bool IsOpen => isOpen;
     public bool CanOpenInfo => Time.unscaledTime >= blockedUntilTime;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
 
-    void Start()
+    private void Start()
     {
         if (panelRoot != null)
         {
@@ -34,7 +34,7 @@ public class InfoPanelController : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (!isOpen)
         {
@@ -56,7 +56,7 @@ public class InfoPanelController : MonoBehaviour
 
         if (panelRoot == null)
         {
-            Debug.LogWarning("InfoPanelController: panelRoot nu este setat.");
+            Debug.LogWarning("InfoPanelManager: panelRoot nu este setat.");
             return;
         }
 

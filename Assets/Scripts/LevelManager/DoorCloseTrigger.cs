@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class DoorTrigger : MonoBehaviour
+public class DoorCloseTrigger : MonoBehaviour
 {
-    [Header("Trage butonul de la ușa pe care vrei să o închizi")]
-    public InteractButton butonUsa;
+    [Header("Trage butonul usii care trebuie inchisa")]
+    public LevelDoorButton butonUsa;
 
     private Collider triggerCollider;
     private bool hasTriggered;
@@ -45,18 +45,17 @@ public class DoorTrigger : MonoBehaviour
             return;
         }
 
-        if (other.transform.root.CompareTag("Player"))
-
+        if (!other.transform.root.CompareTag("Player"))
         {
-            Debug.Log($"[Timp: {Time.time}] Player-ul a fost detectat cu succes!");
+            return;
+        }
 
-            butonUsa.InchideUsa();
-            hasTriggered = true;
+        butonUsa.InchideUsa();
+        hasTriggered = true;
 
-            if (triggerCollider != null)
-            {
-                triggerCollider.enabled = false;
-            }
+        if (triggerCollider != null)
+        {
+            triggerCollider.enabled = false;
         }
     }
 }

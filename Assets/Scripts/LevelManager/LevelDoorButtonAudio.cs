@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class InteractButtonAudio : MonoBehaviour
+public class LevelDoorButtonAudio : MonoBehaviour
 {
     [Header("Audio")]
     public AudioClip successClip;
@@ -14,9 +14,6 @@ public class InteractButtonAudio : MonoBehaviour
 
     private AudioSource worldAudioSource;
     private AudioSource successAudioSource;
-
-    public AudioClip ButtonPressClip => buttonPressClip;
-    public float ButtonVolume => buttonVolume;
 
     private void Awake()
     {

@@ -1,32 +1,34 @@
 using UnityEngine;
 
-public class ElevatorMovement : MonoBehaviour
+public class MovingLift : MonoBehaviour
 {
-    [Header("Setari Lift")]
+    [Header("Setari lift")]
     public float inaltimeDeUrcare = 4f;
     public float viteza = 2f;
 
-    [Header("Setari Siguranta")]
+    [Header("Setari siguranta")]
     public float distantaSiguranta = 1.5f;
     public Vector3 marimeVerificare = new Vector3(1.5f, 0.75f, 1.5f);
 
     private Vector3 pozitieJos;
     private Vector3 pozitieSus;
-    private bool seMisca = false;
+    private bool seMisca;
     private bool mergeSpreSus = true;
     private Collider[] liftColliders;
 
-    void Start()
+    private void Start()
     {
         pozitieJos = transform.localPosition;
-        pozitieSus = pozitieJos + new Vector3(0, inaltimeDeUrcare, 0);
+        pozitieSus = pozitieJos + new Vector3(0f, inaltimeDeUrcare, 0f);
         liftColliders = GetComponentsInChildren<Collider>();
     }
 
-    void Update()
+    private void Update()
     {
         if (!seMisca)
+        {
             return;
+        }
 
         if (!mergeSpreSus && EsteJucatorSubLift())
         {
@@ -38,7 +40,9 @@ public class ElevatorMovement : MonoBehaviour
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, tinta, viteza * Time.deltaTime);
 
         if (Vector3.Distance(transform.localPosition, tinta) < 0.01f)
+        {
             mergeSpreSus = !mergeSpreSus;
+        }
     }
 
     public void PornesteLiftul()
@@ -51,42 +55,49 @@ public class ElevatorMovement : MonoBehaviour
         seMisca = false;
     }
 
-    bool EsteJucatorSubLift()
+    private bool EsteJucatorSubLift()
     {
         if (!TryGetLiftBounds(out Bounds bounds))
+        {
             return false;
+        }
 
         Vector3 halfExtents = new Vector3(
             Mathf.Max(marimeVerificare.x * 0.5f, bounds.extents.x),
             marimeVerificare.y * 0.5f,
-            Mathf.Max(marimeVerificare.z * 0.5f, bounds.extents.z)
-        );
+            Mathf.Max(marimeVerificare.z * 0.5f, bounds.extents.z));
 
-        Vector3 centru = bounds.center - new Vector3(0, bounds.extents.y + distantaSiguranta * 0.5f, 0);
+        Vector3 centru = bounds.center - new Vector3(0f, bounds.extents.y + distantaSiguranta * 0.5f, 0f);
         Collider[] hituri = Physics.OverlapBox(centru, halfExtents);
 
         foreach (Collider hit in hituri)
         {
             if (hit.CompareTag("Player"))
+            {
                 return true;
+            }
         }
 
         return false;
     }
 
-    bool TryGetLiftBounds(out Bounds bounds)
+    private bool TryGetLiftBounds(out Bounds bounds)
     {
         bounds = default;
 
         if (liftColliders == null || liftColliders.Length == 0)
+        {
             liftColliders = GetComponentsInChildren<Collider>();
+        }
 
         bool gasit = false;
 
         foreach (Collider col in liftColliders)
         {
             if (col == null || !col.enabled || col.isTrigger)
+            {
                 continue;
+            }
 
             if (!gasit)
             {

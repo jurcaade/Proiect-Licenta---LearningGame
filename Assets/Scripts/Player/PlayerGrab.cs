@@ -43,10 +43,10 @@ public class PlayerGrab : MonoBehaviour
 
         if (hit.transform.CompareTag(grabbableTag))
         {
-            StackCube cubeInfo = hit.transform.GetComponent<StackCube>();
+            StackItem cubeInfo = hit.transform.GetComponent<StackItem>();
             if (cubeInfo != null && cubeInfo.isStacked)
             {
-                StackBase stackBase = FindObjectOfType<StackBase>();
+                StackPuzzleManager stackBase = FindObjectOfType<StackPuzzleManager>();
                 if (stackBase != null)
                 {
                     if (!stackBase.IsTopCube(hit.transform.gameObject))

@@ -1,7 +1,7 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.SceneManagement; // Necesar pentru Restart
 using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,35 +10,34 @@ public class LevelManager : MonoBehaviour
     [Header("Game Info")]
     public string gameName = "CodeScape 3D";
 
-    [Header("Prefab Room (structura)")]
+    [Header("Prefab Room")]
     public GameObject roomPrefab;
 
-    [Header("Prefabs nivele (doar obiecte)")]
+    [Header("Prefabs nivele")]
     public GameObject[] levelPrefabs;
 
-    [Header("UI Feedback Final Nivel")]
+    [Header("UI final nivel")]
     public GameObject levelCompletePanel;
     public TMP_Text levelCompleteText;
 
-    [Header("UI Ecran Final (Sfarsit Joc)")]
-    public GameObject finalPanel; // Panoul cu Quit și Restart
+    [Header("UI final joc")]
+    public GameObject finalPanel;
 
-    [Header("Audio Final Joc")]
+    [Header("Audio final joc")]
     public AudioClip finalCompleteClip;
     [Range(0f, 1f)]
     public float finalCompleteVolume = 1f;
 
-    private int nivelCurent = 0;
-    private GameObject roomCurenta;
+    private int nivelCurent;
     private AudioSource audioSource;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
 
-    void Start()
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -49,81 +48,53 @@ public class LevelManager : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
 
-        // Ne asigurăm că panoul final este închis la început
-        if (finalPanel != null) finalPanel.SetActive(false);
+        if (finalPanel != null)
+        {
+            finalPanel.SetActive(false);
+        }
     }
 
-    // --- FUNCȚIA MODIFICATĂ ---
     public void ShowLevelCompleteMessage()
     {
         StopAllCoroutines();
-
-        // Așteptăm ca jucătorul să apese butonul fizic!
-        string mesaj;
-      
-            mesaj = "<b>NIVELUL " + nivelCurent + " COMPLETAT!</b>\n<size=50%><color=#00FFFF>Apasă butonul verde pentru a deschide ușa.</size></color>";
-
+        string mesaj = "<b>NIVELUL " + nivelCurent + " COMPLETAT!</b>\n<size=50%><color=#00FFFF>Apasa butonul verde pentru a deschide usa.</size></color>";
         StartCoroutine(WinScreenRoutine(mesaj));
     }
 
-    // --- Funcție nouă pentru a verifica dacă suntem la final ---
     public bool IsGameComplete()
     {
         return nivelCurent >= levelPrefabs.Length;
     }
 
-    // --- Făcută PUBLICĂ pentru a fi apelată de InteractButton ---
     public void ShowFinalGameScreen()
     {
-        if (finalPanel != null)
+        if (finalPanel == null)
         {
-            finalPanel.SetActive(true);
-            PlayFinalCompleteSound();
-
-            // Dezactivăm panoul temporar dacă era activ
-            if (levelCompletePanel != null) levelCompletePanel.SetActive(false);
-
-            // Activăm cursorul pentru ca jucătorul să poată da click pe butoane
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Debug.LogError("Final Panel nu este asignat in Inspector!");
+            return;
         }
-        else
-        {
-            Debug.LogError("Final Panel nu este asignat în Inspector!");
-        }
-    }
 
-    private void PlayFinalCompleteSound()
-    {
-        if (audioSource != null && finalCompleteClip != null)
-        {
-            audioSource.PlayOneShot(finalCompleteClip, finalCompleteVolume);
-        }
-    }
+        finalPanel.SetActive(true);
+        PlayFinalCompleteSound();
 
-    private IEnumerator WinScreenRoutine(string mesaj)
-    {
-        if (levelCompletePanel != null && levelCompleteText != null)
+        if (levelCompletePanel != null)
         {
-            levelCompleteText.text = mesaj;
-            levelCompletePanel.SetActive(true);
-            yield return new WaitForSeconds(3.5f);
             levelCompletePanel.SetActive(false);
         }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
-    // --- METODE PENTRU BUTOANELE DE PE FINAL PANEL ---
     public void RestartGame()
     {
-        // Reîncarcă scena curentă
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void QuitGame()
     {
-        // Închide aplicația
         Application.Quit();
-        Debug.Log("Jocul s-a închis.");
+        Debug.Log("Jocul s-a inchis.");
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -138,47 +109,15 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        roomCurenta = Instantiate(roomPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject roomCurenta = Instantiate(roomPrefab, spawnPoint.position, spawnPoint.rotation);
+        RemoveBackWall(roomCurenta);
 
-        Transform[] toateObiectele = roomCurenta.GetComponentsInChildren<Transform>(true);
-        foreach (Transform t in toateObiectele)
+        LevelDoorButton levelButton = roomCurenta.GetComponentInChildren<LevelDoorButton>(true);
+        if (levelButton != null) levelButton.SetInteractable(false);
+
+        if (!isSpawnRoom)
         {
-            if (t.name == "BackWall") Destroy(t.gameObject);
-        }
-
-        InteractButton interactBtnComp = roomCurenta.GetComponentInChildren<InteractButton>(true);
-
-        if (isSpawnRoom)
-        {
-            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
-        }
-        else
-        {
-            if (interactBtnComp != null) interactBtnComp.SetInteractable(false);
-
-            GameObject nivelPrefab = levelPrefabs[nivelCurent];
-            if (nivelPrefab != null)
-            {
-                GameObject nivelObiecte = Instantiate(nivelPrefab, roomCurenta.transform);
-                nivelObiecte.transform.localPosition = Vector3.zero;
-                nivelObiecte.transform.localRotation = Quaternion.identity;
-
-                BitManager bm = nivelObiecte.GetComponentInChildren<BitManager>(true);
-                if (bm != null && interactBtnComp != null) bm.SetupInteractButton(interactBtnComp.gameObject);
-
-                Level2Manager l2 = nivelObiecte.GetComponentInChildren<Level2Manager>(true);
-                if (l2 != null && interactBtnComp != null) l2.SetupInteractButton(interactBtnComp.gameObject);
-
-                StackBase sb = nivelObiecte.GetComponentInChildren<StackBase>(true);
-                if (sb != null && interactBtnComp != null) sb.SetupInteractButton(interactBtnComp.gameObject);
-
-                SortingManager sm = nivelObiecte.GetComponentInChildren<SortingManager>(true);
-                if (sm != null && interactBtnComp != null) sm.SetupInteractButton(interactBtnComp.gameObject);
-
-                ForLoopManager lm = nivelObiecte.GetComponentInChildren<ForLoopManager>(true);
-                if ((lm != null) && interactBtnComp != null) lm.SetupInteractButton(interactBtnComp.gameObject);
-            }
-
+            SpawnLevelObjects(roomCurenta, levelButton);
             nivelCurent++;
         }
 
@@ -190,44 +129,101 @@ public class LevelManager : MonoBehaviour
         SpawnRoom(spawnPoint, true);
     }
 
-    private void UpdateScreenText(GameObject cameraInstance, bool isSpawnRoom)
+    private void PlayFinalCompleteSound()
     {
-        TextMeshPro textComp = cameraInstance.GetComponentInChildren<TextMeshPro>();
-        if (textComp == null) return;
+        if (audioSource != null && finalCompleteClip != null)
+        {
+            audioSource.PlayOneShot(finalCompleteClip, finalCompleteVolume);
+        }
+    }
+
+    private IEnumerator WinScreenRoutine(string mesaj)
+    {
+        if (levelCompletePanel == null || levelCompleteText == null)
+        {
+            yield break;
+        }
+
+        levelCompleteText.text = mesaj;
+        levelCompletePanel.SetActive(true);
+        yield return new WaitForSeconds(3.5f);
+        levelCompletePanel.SetActive(false);
+    }
+
+    private void RemoveBackWall(GameObject roomInstance)
+    {
+        Transform[] toateObiectele = roomInstance.GetComponentsInChildren<Transform>(true);
+        foreach (Transform obiect in toateObiectele)
+        {
+            if (obiect.name == "BackWall")
+            {
+                Destroy(obiect.gameObject);
+            }
+        }
+    }
+
+    private void SpawnLevelObjects(GameObject roomCurenta, LevelDoorButton levelButton)
+    {
+        GameObject nivelPrefab = levelPrefabs[nivelCurent];
+        if (nivelPrefab == null) return;
+
+        GameObject nivelObiecte = Instantiate(nivelPrefab, roomCurenta.transform);
+        nivelObiecte.transform.localPosition = Vector3.zero;
+        nivelObiecte.transform.localRotation = Quaternion.identity;
+
+        if (levelButton == null) return;
+
+        GameObject buttonObject = levelButton.gameObject;
+
+        BitManager bitManager = nivelObiecte.GetComponentInChildren<BitManager>(true);
+        if (bitManager != null) bitManager.SetupInteractButton(buttonObject);
+
+        ReactorPuzzleManager reactorManager = nivelObiecte.GetComponentInChildren<ReactorPuzzleManager>(true);
+        if (reactorManager != null) reactorManager.SetupInteractButton(buttonObject);
+
+        StackPuzzleManager stackManager = nivelObiecte.GetComponentInChildren<StackPuzzleManager>(true);
+        if (stackManager != null) stackManager.SetupInteractButton(buttonObject);
+
+        IfPuzzleManager ifManager = nivelObiecte.GetComponentInChildren<IfPuzzleManager>(true);
+        if (ifManager != null) ifManager.SetupInteractButton(buttonObject);
+
+        LoopPuzzleManager loopManager = nivelObiecte.GetComponentInChildren<LoopPuzzleManager>(true);
+        if (loopManager != null) loopManager.SetupInteractButton(buttonObject);
+    }
+
+    private void UpdateScreenText(GameObject roomInstance, bool isSpawnRoom)
+    {
+        TextMeshPro textComp = roomInstance.GetComponentInChildren<TextMeshPro>();
+        if (textComp == null)
+        {
+            return;
+        }
 
         if (isSpawnRoom)
         {
             textComp.text = $"<size=120%>{gameName}</size>\n<size=60%><color=#A0A0A0>Sistem de testare activat</color></size>";
+            return;
         }
-        else
+
+        textComp.text = $"LEVEL <color=#00FFFF>{nivelCurent}</color>\n<size=50%><color=#A0A0A0>{GetLevelDescription()}</color></size>";
+    }
+
+    private string GetLevelDescription()
+    {
+        switch (nivelCurent)
         {
-            string descriere = "";
-
-            // Folosim switch pentru a alege descrierea în funcție de nivel
-            switch (nivelCurent)
-            {
-                case 1:
-                    descriere = "Conversie Binar - Zecimal";
-                    break;
-                case 2:
-                    descriere = "Circuite și Logică";
-                    break;
-                case 3:
-                    descriere = "Structuri de Date (Stiva)";
-                    break;
-                case 4:
-                    descriere = "Operatori Logici (IF / OR)";
-                    break;
-                case 5:
-                    descriere = "Structuri Repetitive (FOR)";
-                    break;
-                default:
-                    break;
-            }
-
-            // Formatăm textul: Titlu mare și Subtitlu mic colorat gri
-            textComp.text = $"LEVEL <color=#00FFFF>{nivelCurent}</color>\n" +
-                            $"<size=50%><color=#A0A0A0>{descriere}</color></size>";
+            case 1:
+                return "Conversie Binar - Zecimal";
+            case 2:
+                return "Circuite si Logica";
+            case 3:
+                return "Structuri de Date (Stiva)";
+            case 4:
+                return "Operatori Logici (IF / OR)";
+            case 5:
+                return "Structuri Repetitive (FOR)";
+            default:
+                return "";
         }
     }
 }

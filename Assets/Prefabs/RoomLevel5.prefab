@@ -636,7 +636,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4708071970613888386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -709,11 +709,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>OBIECTIV:</b>\r\n\u2022 Cite\u0219te codul de pe ecranul <color=#00FF66>containerului
-    verde</color> pentru a afla num\u0103rul de repet\u0103ri.\r\n\u2022 Arunc\u0103
-    acel num\u0103r <b>exact</b> de cuburi direct \xEEn container.\r\n\u2022 Apas\u0103
-    <color=#00FF00>[EXECUT\u0102]</color> c\xE2nd indexul <color=#569CD6><b>i</b></color>
-    ajunge la valoarea corect\u0103.\r\n\r\n<align=center><size=85%><color=#A0A0A0>Sfat:
+  m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\r\n\n\u2022 Cite\u0219te codul
+    de pe ecranul <color=#00FF66>containerului verde</color> pentru a afla num\u0103rul
+    de repet\u0103ri.\r\n\u2022 Arunc\u0103 acel num\u0103r <b>exact</b> de cuburi
+    direct \xEEn container.\r\n\u2022 Apas\u0103 <color=#00FF00>[EXECUT\u0102]</color>
+    c\xE2nd indexul <color=#569CD6><b>i</b></color> ajunge la valoarea corect\u0103.\r\n\r\n<align=center><size=85%><color=#A0A0A0>Sfat:
     Folose\u0219te liftul pentru a ajunge la nivelul containerului.</color></size></align>\r\n<align=center><size=85%><color=#FF4C4C>Aten\u021Bie:
     Nu dep\u0103\u0219i limita buclei!</color></size></align>\r\n"
   m_isRightToLeft: 0
@@ -3660,7 +3660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 497898, guid: 1b9426746a4365c40b24a81f6ad2daea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.81
+      value: -19.022
       objectReference: {fileID: 0}
     - target: {fileID: 497898, guid: 1b9426746a4365c40b24a81f6ad2daea, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5236,7 +5236,6 @@ MonoBehaviour:
     se repet\u0103 de 3 ori.</b>\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103 click
     pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
-  interactKey: 101
   openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   openVolume: 1
 --- !u!1001 &8291677313310579222

@@ -1650,7 +1650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.08}
   m_SizeDelta: {x: 5.85, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4113600177651244420
@@ -1715,8 +1715,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " Configureaz\u0103 cuburile astfel \xEEnc\xE2t s\u0103 reprezinte num\u0103rul
-    <b><size=130%><color=#00FFFF>11</color></size></b> \xEEn binar."
+  m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\n\n Configureaz\u0103 cuburile
+    astfel \xEEnc\xE2t s\u0103 reprezinte num\u0103rul <b><size=130%><color=#00FFFF>11</color></size></b>
+    \xEEn binar.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 537e5f480fff6f343b732feb10d8e358, type: 2}
   m_sharedMaterial: {fileID: -8546342643887089006, guid: 537e5f480fff6f343b732feb10d8e358, type: 2}
@@ -2002,7 +2003,6 @@ MonoBehaviour:
     <b>1</b>.\r\n\r\nExemplu:\r\n<b>0101 = 4 + 1 = 5</b>\r\n\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103
     click pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
-  interactKey: 101
   openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   openVolume: 0.81
 --- !u!4 &792713303472148842 stripped

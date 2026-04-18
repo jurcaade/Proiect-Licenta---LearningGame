@@ -1,10 +1,10 @@
-﻿using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class BitCube : MonoBehaviour
 {
-    public int bitValue = 0;
-    public int correctBit = 0;
+    public int bitValue;
+    public int correctBit;
     public TMP_Text bitText;
 
     [Header("Audio")]
@@ -12,8 +12,9 @@ public class BitCube : MonoBehaviour
     [Range(0f, 1f)] public float toggleVolume = 0.8f;
 
     private AudioSource audioSource;
+    private BitManager bitManager;
 
-    void Start()
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -27,31 +28,34 @@ public class BitCube : MonoBehaviour
         audioSource.minDistance = 1f;
         audioSource.maxDistance = 10f;
 
-        if (bitText != null)
-            bitText.text = bitValue.ToString();
+        bitManager = FindObjectOfType<BitManager>();
+        UpdateBitText();
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        // Schimba valoarea bitului (0->1, 1->0)
         bitValue = 1 - bitValue;
-        if (bitText != null)
-            bitText.text = bitValue.ToString();
-
+        UpdateBitText();
         PlayToggleSound();
 
-        // Notifică BitManager că s-a schimbat un bit (nu ștergem SetupInteractButton)
-        BitManager bitManager = FindObjectOfType<BitManager>();
         if (bitManager != null)
+        {
             bitManager.NotifyBitChanged();
+        }
     }
 
-    // Metoda pentru resetare cub (optional)
     public void ResetCube()
     {
         bitValue = 0;
+        UpdateBitText();
+    }
+
+    private void UpdateBitText()
+    {
         if (bitText != null)
-            bitText.text = "0";
+        {
+            bitText.text = bitValue.ToString();
+        }
     }
 
     private void PlayToggleSound()

@@ -1171,7 +1171,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8105935769822589401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01}
+  m_LocalPosition: {x: 0, y: 0, z: -0.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1179,7 +1179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5.85, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &457007734345613750
@@ -1244,8 +1244,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>ACTIVEAZ\u0102 REACTORUL</b>\r\n\rSeteaz\u0103 corect bateriile <color=#00FFFF>A</color>,
-    <color=#00FFFF>B</color> \u0219i <color=#00FFFF>C</color>.\r\n<size=90%>\r\nCondi\u021Bie
+  m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\n\n<b>ACTIVEAZ\u0102 REACTORUL</b>\r\n\rSeteaz\u0103
+    corect bateriile <color=#00FFFF>A</color>, <color=#00FFFF>B</color> \u0219i <color=#00FFFF>C</color>.\r\n<size=90%>\r\nCondi\u021Bie
     de activare:\r\n</size>\r\n<align=center><color=#00FF00>(A AND B) OR (NOT C)</color></align>\r\n<size=80%><color=#FF8A00>\r\nAnalizeaz\u0103
     combina\u021Bia corect\u0103 pentru a porni reactorul!\r\n</color></size>"
   m_isRightToLeft: 0
@@ -2122,7 +2122,6 @@ MonoBehaviour:
     = 1</b>\r\n\r\n<b>NOT</b> inverseaz\u0103 valoarea.\r\nExemplu: <b>NOT 1 = 0</b>\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103
     click pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
-  interactKey: 101
   openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   openVolume: 1
 --- !u!4 &3831661473714528789 stripped

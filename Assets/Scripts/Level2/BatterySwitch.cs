@@ -1,17 +1,17 @@
-﻿using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class BatteryLogic : MonoBehaviour
+public class BatterySwitch : MonoBehaviour
 {
-    public int bitValue = 0;
+    public int bitValue;
 
     [Header("UI")]
     public TextMeshPro screenText;
 
-    [Header("Material Index")]
-    public int emissionMaterialIndex = 1; // elementul cu Blue Emission
+    [Header("Material index")]
+    public int emissionMaterialIndex = 1;
 
-    [Header("Emission Colors")]
+    [Header("Emission")]
     public Color onColor = Color.cyan;
     public Color offColor = Color.red;
     public float emissionIntensity = 3f;
@@ -21,14 +21,15 @@ public class BatteryLogic : MonoBehaviour
     [Range(0f, 1f)] public float toggleVolume = 0.8f;
     [Min(0f)] public float toggleStartTime = 0f;
 
-    private Renderer rend;
-    private Material[] mats;
+    private Renderer obiectRenderer;
+    private Material[] materiale;
     private AudioSource audioSource;
 
-    void Start()
+    private void Start()
     {
-        rend = GetComponent<Renderer>();
-        mats = rend.materials;
+        obiectRenderer = GetComponent<Renderer>();
+        materiale = obiectRenderer.materials;
+
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
@@ -44,50 +45,37 @@ public class BatteryLogic : MonoBehaviour
         UpdateVisuals();
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        Interact();
-    }
-
-    public void Interact()
-    {
-        bitValue = (bitValue == 0) ? 1 : 0;
+        bitValue = 1 - bitValue;
         PlayToggleSound();
         UpdateVisuals();
     }
 
-    void UpdateVisuals()
+    private void UpdateVisuals()
     {
-        if (bitValue == 1)
-            SetEmission(onColor);
-        else
-            SetEmission(offColor);
+        SetEmission(bitValue == 1 ? onColor : offColor);
 
-        UpdateText();
-    }
-
-    // =========================
-    // EMISSION
-    // =========================
-    void SetEmission(Color color)
-    {
-        if (emissionMaterialIndex >= mats.Length) return;
-
-        mats[emissionMaterialIndex].EnableKeyword("_EMISSION");
-        mats[emissionMaterialIndex].SetColor("_EmissionColor", color * emissionIntensity);
-        rend.materials = mats;
-    }
-
-    void UpdateText()
-    {
         if (screenText != null)
         {
             screenText.text = bitValue.ToString();
-            screenText.color = (bitValue == 1) ? Color.cyan : Color.red;
+            screenText.color = bitValue == 1 ? Color.cyan : Color.red;
         }
     }
 
-    void PlayToggleSound()
+    private void SetEmission(Color color)
+    {
+        if (materiale == null || emissionMaterialIndex >= materiale.Length)
+        {
+            return;
+        }
+
+        materiale[emissionMaterialIndex].EnableKeyword("_EMISSION");
+        materiale[emissionMaterialIndex].SetColor("_EmissionColor", color * emissionIntensity);
+        obiectRenderer.materials = materiale;
+    }
+
+    private void PlayToggleSound()
     {
         if (audioSource == null || toggleClip == null)
         {
