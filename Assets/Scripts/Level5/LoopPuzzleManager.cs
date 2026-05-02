@@ -148,7 +148,7 @@ public class LoopPuzzleManager : MonoBehaviour
             GameObject pachet = pacheteInScena[index];
             Rigidbody rb = pachet.GetComponent<Rigidbody>();
 
-            if (rb != null)
+            if (rb != null && !rb.isKinematic)
             {
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
