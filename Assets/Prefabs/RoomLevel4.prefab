@@ -142,8 +142,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\n\n<b>SORTEAZ\u0102 SFERELE</b>\r\n\r\nAi
-    de sortat <b>4 sfere</b>.\r\n<size=90%>\r\n<b>Instruc\u021Biuni:</b>\r</size>\r\n\u2022
+  m_text: "<b><color=#00FFFF>NIVEL 4:</color></b>\n\n<b>INSTRUC\u021AIUNEA
+    CONDI\u021AIONAT\u0102 IF</b>\r\n\r\nAi de sortat <b>4 sfere</b>.\r\n<size=90%>\r\n<b>Instruc\u021Biuni:</b>\r</size>\r\n\u2022
     Analizeaz\u0103 algoritmul afi\u0219at deasupra benzii  \r\n\u2022 Decide dac\u0103
     sfera respect\u0103 condi\u021Bia  \r\n\u2022 Apas\u0103 <color=#00FF00>[TRUE]</color>
     dac\u0103 este corect  \r\n\u2022 Apas\u0103 <color=#FF4C4C>[FALSE]</color> dac\u0103
@@ -1492,12 +1492,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9d1b8995cea4748a00f57148ef0d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: "<size=125%><b><color=#7BE8FF>LEVEL 4: OPERATORI LOGICI</color></b></size>\r\n\r\nO
-    condi\u021Bie <b>IF</b> verific\u0103 dac\u0103 o expresie este\r\n<b>adev\u0103rat\u0103</b>
-    sau <b>fals\u0103</b>.\r\n\r\nOperatorul <b>OR</b> este adev\u0103rat dac\u0103\r\ncel
-    pu\u021Bin una dintre condi\u021Bii este adev\u0103rat\u0103.\r\n\r\nExemplu:\r\n<b>TRUE
-    OR FALSE = TRUE</b>\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103 click pentru a
-    \xEEnchide.</color></size>\r\n"
+  infoText: "<size=125%><b><color=#7BE8FF>LEVEL 4: INSTRUC\u021AIUNEA CONDI\u021AIONAT\u0102
+    IF</color></b></size>\r\n\r\nO instruc\u021Biune <b>IF</b> ia o decizie pe baza
+    unei\r\ncondi\u021Bii.\r\n\r\nDac\u0103 acea condi\u021Bie este <b>adev\u0103rat\u0103</b>,
+    se execut\u0103\r\nramura <b>TRUE</b>.\r\nDac\u0103 este <b>fals\u0103</b>, se
+    execut\u0103 ramura <b>ELSE</b> /\r\n<b>FALSE</b>.\r\n\r\n\xCEn acest nivel,
+    verific\u0103 regula afi\u0219at\u0103 pe ecran:\r\ndac\u0103 sfera are o culoare
+    acceptat\u0103, apas\u0103 <b>TRUE</b>;\r\naltfel, apas\u0103 <b>FALSE</b>.\r\n\r\n<size=65%><color=#A0A0A0>Apas\u0103
+    click pentru a \xEEnchide.</color></size>\r\n"
   interactDistance: 4
   openClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   openVolume: 1

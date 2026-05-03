@@ -150,7 +150,7 @@ RectTransform:
   m_GameObject: {fileID: 68284857}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.57, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 845907411}
@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.017, y: -106}
-  m_SizeDelta: {x: 211.379, y: 34.455}
+  m_AnchoredPosition: {x: -165, y: -205}
+  m_SizeDelta: {x: 280, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &68284859
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.6117647, g: 0.9764706, b: 1, a: 1}
+  m_NormalColor: {r: 0.19607843, g: 0.84705883, b: 1, a: 1}
     m_HighlightedColor: {r: 0.91132075, g: 0.9946255, b: 1, a: 1}
     m_PressedColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.04, g: 0.22, b: 0.28, a: 0.95}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -339,11 +339,11 @@ MonoBehaviour:
   gameName: CodeScape 3D
   roomPrefab: {fileID: 564746862190761252}
   levelPrefabs:
+  - {fileID: 6335539015593871789, guid: 403149db88bde8144b3746f5101c0735, type: 3}
+  - {fileID: 8064673624460193659, guid: 60b6e7ee591d7d54286ad7c8cce1ae49, type: 3}
   - {fileID: 2395297661615708173, guid: 5ca084a068398964ba78729954823742, type: 3}
   - {fileID: 8721342379233649594, guid: c787ddfc1557318458b9524a4d35cb1b, type: 3}
-  - {fileID: 6335539015593871789, guid: 403149db88bde8144b3746f5101c0735, type: 3}
   - {fileID: 276083558411696601, guid: 2e9e416602607d14e863f6695e7e5218, type: 3}
-  - {fileID: 8064673624460193659, guid: 60b6e7ee591d7d54286ad7c8cce1ae49, type: 3}
   levelCompletePanel: {fileID: 334635275}
   levelCompleteText: {fileID: 1986508552}
   finalPanel: {fileID: 376600574}
@@ -398,8 +398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 292}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 85}
+  m_SizeDelta: {x: 980, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &159734846
 MonoBehaviour:
@@ -421,8 +421,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=140%><b><color=#7BE8FF>FELICIT\u0102RI!</color></b></size>\r\n\r\n<size=85%><color=#EAF7FF>Ai
-    finalizat cu succes toate camerele de testare.</color></size>\r\n"
+  m_text: "<size=125%><b><color=#7BE8FF>SIMULARE FINALIZAT\u0102</color></b></size>\r\n\r\n<size=82%><color=#EAF7FF>Ai
+    finalizat cu succes toate cele <b>5 camere de testare</b>.</color></size>\r\n\r\n<size=68%><color=#00FFFF>STATUS:
+    5/5 NIVELE COMPLETE</color></size>\r\n<size=60%><color=#A0A0A0>Concepte parcurse:
+    binar, logic\u0103, stiv\u0103, condi\u021Bii \u0219i bucle.</color></size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 537e5f480fff6f343b732feb10d8e358, type: 2}
   m_sharedMaterial: {fileID: -8546342643887089006, guid: 537e5f480fff6f343b732feb10d8e358, type: 2}
@@ -449,12 +451,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.6
-  m_fontSizeBase: 51.6
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 34
+  m_fontSizeMax: 54
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -485,7 +487,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -326.67203, y: 0, z: -365.9376, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -531,10 +533,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1955111567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.1730042, y: 5.963196}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -50, y: -24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186541664
 MonoBehaviour:
@@ -583,12 +585,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 22
+  m_fontSizeMax: 30
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -930,7 +932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.015686275, g: 0.023529412, b: 0.03529412, a: 0.92}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1188,7 +1190,7 @@ RectTransform:
   m_GameObject: {fileID: 487895937}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.57, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1364635111}
@@ -1196,8 +1198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.017, y: -243}
-  m_SizeDelta: {x: 211.379, y: 34.455}
+  m_AnchoredPosition: {x: 165, y: -205}
+  m_SizeDelta: {x: 280, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &487895939
 MonoBehaviour:
@@ -1617,7 +1619,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1710,7 +1712,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RESTART
+  m_text: JOACA DIN NOU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1719,8 +1721,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1737,8 +1739,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.5
-  m_fontSizeBase: 20.5
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2291,7 +2293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: IESIRE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2318,8 +2320,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.5
-  m_fontSizeBase: 20.5
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2696,10 +2698,10 @@ RectTransform:
   - {fileID: 186541663}
   m_Father: {fileID: 2065561895}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.1730957, y: -297.96313}
-  m_SizeDelta: {x: -1287.029, y: -972.692}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 120}
+  m_SizeDelta: {x: 780, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955111568
 MonoBehaviour:
