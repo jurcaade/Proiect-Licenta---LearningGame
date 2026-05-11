@@ -142,8 +142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><color=#00FFFF>NIVEL 4:</color></b>\n\n<b>INSTRUC\u021AIUNEA
-    CONDI\u021AIONAT\u0102 IF</b>\r\n\r\nAi de sortat <b>4 sfere</b>.\r\n<size=90%>\r\n<b>Instruc\u021Biuni:</b>\r</size>\r\n\u2022
+  m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\n\r\nAi de sortat <b>4 sfere</b>.\r\n<size=90%>\r\n<b>Instruc\u021Biuni:</b>\r</size>\r\n\u2022
     Analizeaz\u0103 algoritmul afi\u0219at deasupra benzii  \r\n\u2022 Decide dac\u0103
     sfera respect\u0103 condi\u021Bia  \r\n\u2022 Apas\u0103 <color=#00FF00>[TRUE]</color>
     dac\u0103 este corect  \r\n\u2022 Apas\u0103 <color=#FF4C4C>[FALSE]</color> dac\u0103

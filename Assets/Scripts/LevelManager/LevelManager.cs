@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     [Header("Game Info")]
-    public string gameName = "CodeScape 3D";
+    public string gameName = "CodeScape";
 
     [Header("Prefab Room")]
     public GameObject roomPrefab;
