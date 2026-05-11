@@ -1503,7 +1503,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<color=#C586C0>for</color> (<color=#569CD6>int</color> i = <color=#B5CEA8>0</color>;
-    i < <b><color=#B5CEA8>4</color></b>; i++) \r\n{\r\n    <color=#DCDCAA>IncarcaPachet</color>(i);\r\n}"
+    i < <b><color=#B5CEA8>4</color></b>; i++) \r\n{\r\n    <color=#DCDCAA>IncarcaCub</color>(i);\r\n}"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

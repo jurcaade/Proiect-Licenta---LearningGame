@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
         readyToJump = true;
     }
 
@@ -36,12 +37,12 @@ public class PlayerMovement : MonoBehaviour
         );
 
         MyInput();
-        SpeedControl();
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+        SpeedControl();
     }
 
     private void MyInput()
