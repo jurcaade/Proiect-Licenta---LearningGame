@@ -8,6 +8,7 @@ public class IfPuzzleManager : MonoBehaviour
     public Transform spawnPoint;
     public Transform decisionPoint;
     public TextMeshPro statusText;
+    public float wrongMessageDuration = 2f;
 
     [Header("Audio")]
     public AudioClip wrongClip;
@@ -15,6 +16,7 @@ public class IfPuzzleManager : MonoBehaviour
 
     private readonly Color colorPink = new Color(1f, 0.4f, 0.7f);
     private readonly Color colorOrange = new Color(1f, 0.5f, 0f);
+    private const string WrongMessage = "GRESIT! Uita-te atent la conditia IF";
 
     private GameObject currentSphere;
     private Color currentColor;
@@ -24,6 +26,7 @@ public class IfPuzzleManager : MonoBehaviour
     private bool levelCompleted;
     private LevelDoorButton levelButton;
     private AudioSource audioSource;
+    private PlayerGrab playerGrab;
 
     private void Start()
     {
@@ -36,6 +39,7 @@ public class IfPuzzleManager : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
         audioSource.dopplerLevel = 0f;
+        playerGrab = FindObjectOfType<PlayerGrab>();
 
         culoriPosibile = new Color[]
         {
@@ -91,6 +95,7 @@ public class IfPuzzleManager : MonoBehaviour
         {
             score = 0;
             PlayClip(wrongClip, wrongVolume);
+            ShowWrongMessage();
         }
 
         if (statusText != null)
@@ -106,6 +111,19 @@ public class IfPuzzleManager : MonoBehaviour
 
         Destroy(currentSphere);
         SpawnNewSphere();
+    }
+
+    private void ShowWrongMessage()
+    {
+        if (playerGrab == null)
+        {
+            playerGrab = FindObjectOfType<PlayerGrab>();
+        }
+
+        if (playerGrab != null)
+        {
+            playerGrab.ShowWarningMessage(WrongMessage, wrongMessageDuration);
+        }
     }
 
     private void SpawnNewSphere()

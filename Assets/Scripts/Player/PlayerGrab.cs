@@ -17,6 +17,7 @@ public class PlayerGrab : MonoBehaviour
     private GameObject heldObject;
     private Rigidbody heldObjRb;
     private Collider heldObjCollider;
+    private Coroutine warningRoutine;
 
     void Update()
     {
@@ -53,7 +54,7 @@ public class PlayerGrab : MonoBehaviour
                     {
                         stackBase.PlayErrorSound();
                         if (warningText != null)
-                            StartCoroutine(ShowWarningMessage("EROARE: Poti muta doar cubul din varf! (LIFO)"));
+                            ShowWarningMessage("EROARE: Poti muta doar cubul din varf! (LIFO)");
 
                         return;
                     }
@@ -110,16 +111,30 @@ public class PlayerGrab : MonoBehaviour
         }
     }
 
-    IEnumerator ShowWarningMessage(string message)
+    public void ShowWarningMessage(string message, float duration = 2f)
+    {
+        if (warningRoutine != null)
+        {
+            StopCoroutine(warningRoutine);
+        }
+
+        warningRoutine = StartCoroutine(ShowWarningRoutine(message, duration));
+    }
+
+    private IEnumerator ShowWarningRoutine(string message, float duration)
     {
         if (warningPanel == null || warningText == null)
+        {
+            warningRoutine = null;
             yield break;
+        }
 
         warningPanel.SetActive(true);
         warningText.text = message;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(duration);
 
         warningPanel.SetActive(false);
+        warningRoutine = null;
     }
 }
