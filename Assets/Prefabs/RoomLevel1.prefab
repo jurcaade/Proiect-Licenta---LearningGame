@@ -972,7 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bitValue: 0
-  correctBit: 1
+  correctBit: 0
   bitText: {fileID: 7116421279962860417}
   toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   toggleVolume: 1
@@ -1714,7 +1714,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b><color=#00FFFF>OBIECTIV:</color></b>\n\n Configureaz\u0103 cuburile
-    astfel \xEEnc\xE2t s\u0103 reprezinte num\u0103rul <b><size=130%><color=#00FFFF>11</color></size></b>
+    astfel \xEEnc\xE2t s\u0103 reprezinte num\u0103rul <b><size=130%><color=#00FFFF>13</color></size></b>
     \xEEn binar.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 537e5f480fff6f343b732feb10d8e358, type: 2}
@@ -1907,7 +1907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bitValue: 0
-  correctBit: 0
+  correctBit: 1
   bitText: {fileID: 3301088721613650080}
   toggleClip: {fileID: 8300000, guid: ee3b3257f4891fb4dad479cf164dc911, type: 3}
   toggleVolume: 1

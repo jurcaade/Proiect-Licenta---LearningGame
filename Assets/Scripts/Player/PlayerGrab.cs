@@ -7,7 +7,7 @@ public class PlayerGrab : MonoBehaviour
     [Header("Setari Prindere")]
     public Transform holdPosition;
     public float grabRange = 3f;
-    public string grabbableTag = "StackCube";
+    public string level3Tag = "StackCube";
     public string level5Tag = "DataPacket";
 
     [Header("UI Feedback")]
@@ -39,10 +39,10 @@ public class PlayerGrab : MonoBehaviour
         if (!Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, grabRange))
             return;
 
-        if (!hit.transform.CompareTag(grabbableTag) && !hit.transform.CompareTag(level5Tag))
+        if (!hit.transform.CompareTag(level3Tag) && !hit.transform.CompareTag(level5Tag))
             return;
 
-        if (hit.transform.CompareTag(grabbableTag))
+        if (hit.transform.CompareTag(level3Tag))
         {
             StackItem cubeInfo = hit.transform.GetComponent<StackItem>();
             if (cubeInfo != null && cubeInfo.isStacked)
