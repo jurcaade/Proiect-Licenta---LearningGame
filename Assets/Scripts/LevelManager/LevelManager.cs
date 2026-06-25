@@ -95,11 +95,11 @@ public class LevelManager : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("Jocul s-a inchis.");
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
     }
+    //#if UNITY_EDITOR
+    //        UnityEditor.EditorApplication.isPlaying = false;
+    //#endif
+    //}
 
     public void SpawnRoom(Transform spawnPoint, bool isSpawnRoom = false)
     {

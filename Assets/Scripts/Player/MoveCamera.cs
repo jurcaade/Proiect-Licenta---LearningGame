@@ -6,6 +6,6 @@ public class MoveCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = cameraPosition.position;
+        transform.position = Vector3.Lerp(transform.position, cameraPosition.position, Time.deltaTime * 20f);
     }
 }
